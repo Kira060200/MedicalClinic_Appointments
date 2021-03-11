@@ -1,18 +1,18 @@
 package model;
 
 public class Assistant extends MedicalStaff{
-    private Doctor doc;
+    private boolean resident;
 
-    public Assistant(long id, String firstName, String lastName, int age, String sex, String phoneNumber, float salary, int experience, Doctor doc) {
+    public Assistant(long id, String firstName, String lastName, int age, String sex, String phoneNumber, float salary, int experience, boolean resident) {
         super(id, firstName, lastName, age, sex, phoneNumber, salary, experience);
-        this.doc = doc;
+        this.resident = resident;
     }
 
-    public Doctor getDoc() {
-        return doc;
+    public boolean isResident() {
+        return resident;
     }
 
-    public void setDoc(Doctor doc) {
-        this.doc = doc;
+    public void setResident(boolean resident) {
+        this.resident = resident;
     }
 }
