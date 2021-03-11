@@ -1,10 +1,11 @@
 package model;
 
-public abstract class MedicalStaff {
+public abstract class MedicalStaff extends Person{
     protected float salary;
     protected int experience;
 
-    public MedicalStaff(float salary, int experience) {
+    public MedicalStaff(long id, String firstName, String lastName, int age, String sex, String phoneNumber, float salary, int experience) {
+        super(id, firstName, lastName, age, sex, phoneNumber);
         this.salary = salary;
         this.experience = experience;
     }
