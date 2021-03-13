@@ -64,11 +64,24 @@ public class Application {
                                     System.out.println("Please specify branch: ");
                                     String branch = scanner.nextLine();
                                     //Assistant[] assistant = new Assistant[10];
-                                    MedicalStaff person = new Doctor(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, salary, experience, branch);
-                                    clinicalManagement.addStaff(clinic, person);
+                                    MedicalStaff doc = new Doctor(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, salary, experience, branch);
+                                    clinicalManagement.addStaff(clinic, doc);
                                     break;
                                 case "assistant" :
-                                    //TODO
+                                    System.out.println("Is the assistant a resident? [yes/no]");
+                                    String resident = scanner.nextLine();
+                                    MedicalStaff assistant;
+                                    switch(resident){
+                                        case "yes":
+                                            assistant = new Assistant(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, salary, experience, true);
+                                            clinicalManagement.addStaff(clinic, assistant);
+                                            break;
+                                        case "no":
+                                            assistant = new Assistant(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, salary, experience, false);
+                                            clinicalManagement.addStaff(clinic, assistant);
+                                            break;
+                                        default: System.out.println("Invalid answer.");
+                                    }
                                     break;
                                 default : System.out.println("This staff type doesn't exist.");
                             }
@@ -83,7 +96,31 @@ public class Application {
                         default : System.out.println("This person type doesn't exist.");
                     }
                     break;
-
+                case "add appointment":
+                    System.out.println("Please specify the date for the appointment: ");
+                    String date = scanner.nextLine();
+                    System.out.println("Please specify the price: ");
+                    float price = Float.valueOf(scanner.nextLine());
+                    System.out.println("Please specify the doctor: ");
+                    //TODO add class method to get the doctor by name
+                    String docName = scanner.nextLine();
+                    //doc = ...
+                    //TODO add class method to get the patient by name
+                    System.out.println("Please specify the patient: ");
+                    //pat = ...
+                    System.out.println("Please specify the type of appointment (consultation / surgery): ");
+                    String appointmentType = scanner.nextLine();
+                    switch(appointmentType) {
+                        case "consultation: ":
+                            //TODO
+                            break;
+                        case "surgery: ":
+                            //TODO
+                            break;
+                        default: System.out.println("This appointment type doesn't exist");
+                    }
+                    //TODO create the appointment and add it to MedicalClinic
+                    break;
                 case "view" :
                     //TODO
                     break;
