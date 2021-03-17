@@ -13,6 +13,11 @@ public class ClinicalManagement {
         clinic.getPatients()[nextAvailableIndex] = patient;
     }
 
+    public void addAppointment(MedicalClinic clinic, Appointment app) {
+        int nextAvailableIndex = getNumberOfPatients(clinic);
+        clinic.getAppointments()[nextAvailableIndex] = app;
+    }
+
     public void printStaffDetails(MedicalClinic clinic) {
         for(MedicalStaff p : clinic.getStaff()) {
             if(p != null) {
@@ -47,5 +52,23 @@ public class ClinicalManagement {
             }
         }
         return numberOfPatients;
+    }
+
+    public void printAppointmentsDetails(MedicalClinic clinic) {
+        for(Appointment a : clinic.getAppointments()) {
+            if(a != null) {
+                System.out.println(a);
+            }
+        }
+    }
+
+    private int getNumberOfAppointments(MedicalClinic clinic) {
+        int numberOfAppointments = 0;
+        for(Appointment a : clinic.getAppointments()) {
+            if(a != null) {
+                numberOfAppointments++;
+            }
+        }
+        return numberOfAppointments;
     }
 }
