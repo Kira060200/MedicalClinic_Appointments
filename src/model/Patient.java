@@ -22,6 +22,7 @@ public class Patient extends Person{
         for (String itm : disease){
             d += (itm + "|");
         }
-        return super.toString() + " / Diseases: " + ((!d.isEmpty()) ? d : "None");
+        boolean res = d.equals("|");
+        return super.toString() + " / Diseases: " + ((!res) ? d : "None");
     }
 }
