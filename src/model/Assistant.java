@@ -15,4 +15,7 @@ public class Assistant extends MedicalStaff{
     public void setResident(boolean resident) {
         this.resident = resident;
     }
+
+    @Override
+    public String toString() { return super.toString() + ((resident) ? " / resident" : ""); }
 }

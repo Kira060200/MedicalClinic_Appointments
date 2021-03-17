@@ -30,4 +30,9 @@ public class Doctor extends MedicalStaff{
     public void setAssistant(Assistant[] assistant) {
         this.assistant = assistant;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " / " + branch;
+    }
 }

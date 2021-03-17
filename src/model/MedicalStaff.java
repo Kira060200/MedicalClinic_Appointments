@@ -25,4 +25,9 @@ public abstract class MedicalStaff extends Person{
     public void setExperience(int experience) {
         this.experience = experience;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " / " + salary + " / " + experience;
+    }
 }

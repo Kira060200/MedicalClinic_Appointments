@@ -3,6 +3,7 @@ package service;
 import model.*;
 
 public class ClinicalManagement {
+
     public void addStaff(MedicalClinic clinic, MedicalStaff staff) {
         int nextAvailableIndex = getNumberOfStaff(clinic);
         clinic.getStaff()[nextAvailableIndex] = staff;

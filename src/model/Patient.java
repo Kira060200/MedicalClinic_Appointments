@@ -15,4 +15,13 @@ public class Patient extends Person{
     public void setDisease(String[] disease) {
         this.disease = disease;
     }
+
+    @Override
+    public String toString() {
+        String d = "";
+        for (String itm : disease){
+            d += (itm + "|");
+        }
+        return super.toString() + " / Diseases: " + ((!d.isEmpty()) ? d : "None");
+    }
 }

@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Person {
+public abstract class Person extends Object{
     protected long id;
     protected String firstName;
     protected String lastName;
@@ -63,5 +63,10 @@ public abstract class Person {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    @Override //annotation
+    public String toString() {
+        return firstName + " / " + lastName + " / " + age + " / " + sex + " / " + phoneNumber;
     }
 }
