@@ -5,7 +5,7 @@ package main;
 main:
     Application
 model:
-    1 MedicalClinic ([]MedicalStaff, []Patient)
+    1 MedicalClinic ([]MedicalStaff, []Patient, []Appointment)
     2 abstract Appointment (id, date, price, Doctor, Patient)
         2.1 MedicalConsultation (disease, Prescription)
         2.2 MedicalSurgery (type, Assistant)
@@ -18,6 +18,33 @@ model:
     5 Prescription (id, []Drug)
 service:
     ClinicalManagement
+
+List actiuni:
+1 add patient
+2 add doctor
+3 add assistant
+4 add surgery
+5 add consultation
+6 view patient
+7 view doctor
+8 view assistant
+9 view surgery
+10 view consultation
+11 get number of patients with diseases
+12 get number of medical staff by type
+13 get number of appointments by type
+14 overview (patients, medical staff, appointments)
+
+List obiecte:
+1 MedicalClinic
+2 MedicalConsultation
+3 MedicalSurgery
+4 Patient
+5 Doctor
+6 Assistant
+7 Drug
+8 Prescription
+9 ClinicalManagement
 
  */
 
