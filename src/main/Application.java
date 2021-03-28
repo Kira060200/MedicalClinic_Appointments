@@ -34,6 +34,11 @@ List actiuni:
 12 get number of medical staff by type
 13 get number of appointments by type
 14 overview (patients, medical staff, appointments)
+15 delete patient
+16 delete medical staff ???
+17 delete appointment
+18 update patient (age)
+19 update appointment (date)
 
 List obiecte:
 1 MedicalClinic
@@ -60,7 +65,7 @@ public class Application {
         ClinicalManagement clinicalManagement = new ClinicalManagement();
 
         Scanner scanner = new Scanner(System.in);
-
+        //TODO: stergere si actualizare (poate si o sortare)
         while(true) {
             System.out.println("Please type a command: ");
             String line = scanner.nextLine();
@@ -96,6 +101,7 @@ public class Application {
                                             String branch = scanner.nextLine();
                                             //Assistant[] assistant = new Assistant[10];
                                             MedicalStaff doc = new Doctor(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, salary, experience, branch);
+                                            //TODO: doctor should have assistants (maybe an update that appends them?)
                                             clinicalManagement.addStaff(clinic, doc);
                                             break;
                                         case "assistant" :
@@ -104,6 +110,7 @@ public class Application {
                                             MedicalStaff assistant;
                                             switch(resident){
                                                 case "yes":
+                                                    //TODO: check if you can replace this random with something unique (maybe with last array position from clinic)
                                                     assistant = new Assistant(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, salary, experience, true);
                                                     clinicalManagement.addStaff(clinic, assistant);
                                                     break;
@@ -132,21 +139,51 @@ public class Application {
                             String date = scanner.nextLine();
                             System.out.println("Please specify the price: ");
                             float price = Float.valueOf(scanner.nextLine());
-                            System.out.println("Please specify the doctor: ");
-                            //TODO add class method to get the doctor by name
-                            String docName = scanner.nextLine();
-                            //doc = ...
-                            //TODO add class method to get the patient by name
-                            System.out.println("Please specify the patient: ");
-                            //pat = ...
+                            //TODO verify if this works: add class method to get the doctor by name
+                            System.out.println("Please specify the doctor's first_name: ");
+                            String docFirstName = scanner.nextLine();
+                            System.out.println("Please specify the doctor's last name: ");
+                            String docLastName = scanner.nextLine();
+                            Doctor doc = clinicalManagement.searchDoctor(clinic, docFirstName, docLastName);
+                            if(doc == null){
+                                System.out.println("This doctor does not exist !");
+                                break;
+                            }
+                            //TODO verify if this works: add class method to get the patient by name
+                            System.out.println("Please specify the patient's first_name: ");
+                            String patFirstName = scanner.nextLine();
+                            System.out.println("Please specify the patient's last name: ");
+                            String patLastName = scanner.nextLine();
+                            Patient pat = clinicalManagement.searchPatient(clinic, patFirstName, patLastName);
+                            if(pat == null){
+                                System.out.println("This patient does not exist !");
+                                break;
+                            }
+
                             System.out.println("Please specify the type of appointment (consultation / surgery): ");
                             String appointmentType = scanner.nextLine();
+                            //TODO test this
                             switch(appointmentType) {
                                 case "consultation: ":
-                                    //TODO
+                                    System.out.println("Please specify the type of disease: ");
+                                    String diseaseType = scanner.nextLine();
+                                    //TODO finish this
+                                    //TODO maybe create one without prescription and then make an update method ?
                                     break;
                                 case "surgery: ":
-                                    //TODO
+                                    System.out.println("Please specify the type of surgery: ");
+                                    String surgeryType = scanner.nextLine();
+                                    System.out.println("Please specify the patient's first_name: ");
+                                    String asFirstName = scanner.nextLine();
+                                    System.out.println("Please specify the patient's last name: ");
+                                    String asLastName = scanner.nextLine();
+                                    Assistant as = clinicalManagement.searchAssistant(clinic, asFirstName, asLastName);
+                                    if(as == null){
+                                        System.out.println("This assistant does not exist !");
+                                        break;
+                                    }
+                                    MedicalSurgery surgery = new MedicalSurgery(new Random().nextInt(100), date, price, doc, pat, surgeryType, as);
+                                    clinicalManagement.addAppointment(clinic, surgery);
                                     break;
                                 default: System.out.println("This appointment type doesn't exist");
                             }

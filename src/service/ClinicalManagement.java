@@ -2,6 +2,8 @@ package service;
 
 import model.*;
 
+import javax.print.Doc;
+
 public class ClinicalManagement {
 
     public void addStaff(MedicalClinic clinic, MedicalStaff staff) {
@@ -71,5 +73,29 @@ public class ClinicalManagement {
             }
         }
         return numberOfAppointments;
+    }
+
+    public Patient searchPatient(MedicalClinic mc, String firstName, String lastName) {
+        for (Patient pat : mc.getPatients())
+            if (pat != null)
+                if (pat.getFirstName().equals(firstName) && pat.getLastName().equals(lastName))
+                    return pat;
+        return null;
+    }
+
+    public Doctor searchDoctor(MedicalClinic mc, String firstName, String lastName) {
+        for (MedicalStaff doc : mc.getStaff())
+            if (doc instanceof Doctor)
+                if (doc.getFirstName().equals(firstName) && doc.getLastName().equals(lastName))
+                    return (Doctor) doc;
+        return null;
+    }
+
+    public Assistant searchAssistant(MedicalClinic mc, String firstName, String lastName) {
+        for (MedicalStaff as : mc.getStaff())
+            if (as instanceof Assistant)
+                if (as.getFirstName().equals(firstName) && as.getLastName().equals(lastName))
+                    return (Assistant) as;
+        return null;
     }
 }
