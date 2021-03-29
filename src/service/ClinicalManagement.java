@@ -104,6 +104,21 @@ public class ClinicalManagement {
         return null;
     }
 
+    public MedicalStaff searchStaff(MedicalClinic clinic, String firstName, String lastName) {
+        for (MedicalStaff staff : clinic.getStaff())
+                if (staff.getFirstName().equals(firstName) && staff.getLastName().equals(lastName))
+                    return staff;
+        return null;
+    }
+
+    public Appointment searchAppointment(MedicalClinic clinic, String date, String docFirstName, String docLastName, String patFirstName, String patLastName) {
+        for (Appointment a : clinic.getAppointments())
+            if (a != null)
+                if (a.getDate().equals(date) && a.getDoc().getFirstName().equals(docFirstName) && a.getDoc().getLastName().equals(docLastName) && a.getPat().getFirstName().equals(patFirstName) && a.getPat().getLastName().equals(patLastName))
+                    return a;
+        return null;
+    }
+
     public void showStatsAppointments(MedicalClinic clinic) {
         int numberOfConsultations= 0;
         int numberOfSurgeries= 0;

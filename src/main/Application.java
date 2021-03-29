@@ -318,6 +318,100 @@ public class Application {
                             System.out.println("Invalid type");
                     }
                     break;
+                case "update" :
+                    //TODO: check if all this update works
+                    System.out.println("Please choose what would you like to update (patient / staff / appointment): ");
+                    String updateType = scanner.nextLine();
+                    switch(updateType){
+                        case "patient":
+                            System.out.println("Please specify the patient's first name: ");
+                            String patFirstName = scanner.nextLine();
+                            System.out.println("Please specify the patient's last name: ");
+                            String patLastName = scanner.nextLine();
+                            Patient pat = clinicalManagement.searchPatient(clinic, patFirstName, patLastName);
+                            if(pat == null){
+                                System.out.println("This patient does not exist !");
+                                break;
+                            }
+                            System.out.println("Please specify what would you like to update (age / phone): ");
+                            String updateAnswer = scanner.nextLine();
+                            switch (updateAnswer){
+                                case "age":
+                                    System.out.println("Please specify age: ");
+                                    int age = Integer.valueOf(scanner.nextLine());
+                                    clinicalManagement.updateAge(pat, age);
+                                    break;
+                                case "phone":
+                                    System.out.println("Please specify the phone number: ");
+                                    String phone = scanner.nextLine();
+                                    clinicalManagement.updatePhone(pat, phone);
+                                    break;
+                                default:System.out.println("Invalid type");
+                            }
+                            break;
+                        case "staff":
+                            System.out.println("Please specify staff member's first name: ");
+                            String staffFirstName = scanner.nextLine();
+                            System.out.println("Please specify staff member's last name: ");
+                            String staffLastName = scanner.nextLine();
+                            MedicalStaff staff = clinicalManagement.searchStaff(clinic, staffFirstName, staffLastName);
+                            if(staff == null){
+                                System.out.println("This staff member does not exist !");
+                                break;
+                            }
+                            System.out.println("Please specify what would you like to update (age / phone / salary / experience): ");
+                            String updateStaffAnswer = scanner.nextLine();
+                            switch (updateStaffAnswer){
+                                case "age":
+                                    System.out.println("Please specify age: ");
+                                    int age = Integer.valueOf(scanner.nextLine());
+                                    clinicalManagement.updateAge(staff, age);
+                                    break;
+                                case "phone":
+                                    System.out.println("Please specify the phone number: ");
+                                    String phone = scanner.nextLine();
+                                    clinicalManagement.updatePhone(staff, phone);
+                                    break;
+                                case "salary":
+                                    System.out.println("Please specify salary: ");
+                                    float salary = Float.valueOf(scanner.nextLine());
+                                    clinicalManagement.updateSalary(staff, salary);
+                                    break;
+                                case "experience":
+                                    System.out.println("Please specify experience: ");
+                                    int experience = Integer.valueOf(scanner.nextLine());
+                                    clinicalManagement.updateExperience(staff, experience);
+                                    break;
+                                default:System.out.println("Invalid type");
+                            }
+                            break;
+                        case "appointment":
+                            System.out.println("Please specify the old date for the appointment: ");
+                            String oldDate = scanner.nextLine();
+
+                            System.out.println("Please specify the doctor's first name: ");
+                            String docFirstName = scanner.nextLine();
+                            System.out.println("Please specify the doctor's last name: ");
+                            String docLastName = scanner.nextLine();
+
+                            System.out.println("Please specify the patient's first name: ");
+                            String patientFirstName = scanner.nextLine();
+                            System.out.println("Please specify the patient's last name: ");
+                            String patientLastName = scanner.nextLine();
+
+                            Appointment app = clinicalManagement.searchAppointment(clinic, oldDate, docFirstName, docLastName, patientFirstName, patientLastName);
+                            if(app == null){
+                                System.out.println("This appointment does not exist !");
+                                break;
+                            }
+                            System.out.println("Please specify the new date for the appointment: ");
+                            String newDate = scanner.nextLine();
+                            clinicalManagement.updateDate(app, newDate);
+                            break;
+                        default:
+                            System.out.println("Invalid type");
+                    }
+                    break;
                 case "exit" :
                     System.out.println("Bye bye!");
                     System.exit(0);
