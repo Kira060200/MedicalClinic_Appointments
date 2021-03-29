@@ -137,4 +137,34 @@ public class ClinicalManagement {
         System.out.println("Patients: " + getNumberOfPatients(clinic));
         System.out.println("Appointments: " + getNumberOfAppointments(clinic));
     }
+
+    public void removePatient(MedicalClinic mc, String firstName, String lastName) {
+        int i = 0;
+        for (Patient pat : mc.getPatients()) {
+            if (pat != null)
+                if (pat.getFirstName().equals(firstName) && pat.getLastName().equals(lastName))
+                    mc.deletePatient(i);
+            i++;
+        }
+    }
+
+    public void removeStaff(MedicalClinic mc, String firstName, String lastName) {
+        int i = 0;
+        for (MedicalStaff staff : mc.getStaff()) {
+            if (staff != null)
+                if (staff.getFirstName().equals(firstName) && staff.getLastName().equals(lastName))
+                    mc.deleteStaff(i);
+            i++;
+        }
+    }
+
+    public void removeAppointment(MedicalClinic mc, String date, String docFirstName, String docLastName, String patFirstName, String patLastName) {
+        int i = 0;
+        for (Appointment a : mc.getAppointments()) {
+            if (a != null)
+                if (a.getDate().equals(date) && a.getDoc().getFirstName().equals(docFirstName) && a.getDoc().getLastName().equals(docLastName) && a.getPat().getFirstName().equals(patFirstName) && a.getPat().getLastName().equals(patLastName))
+                    mc.deleteAppointment(i);
+            i++;
+        }
+    }
 }

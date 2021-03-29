@@ -48,6 +48,7 @@ Lista obiecte:
 8 Prescription
 9 ClinicalManagement
 10 PatientService
+10 PatientService
 
  */
 
@@ -65,7 +66,7 @@ public class Application {
         Scanner scanner = new Scanner(System.in);
         //TODO: stergere si actualizare (si o sortare dupa nume pentru pacienti)
         while(true) {
-            System.out.println("Please type a command (overview / add / view / stats / delete / update / exit): ");
+            System.out.println("Please type a command (overview / add / view / stats / remove / update / exit): ");
             String line = scanner.nextLine();
             switch(line) {
                 case "overview" :
@@ -227,39 +228,33 @@ public class Application {
                     System.out.println("Please choose what would you like to remove (staff / patient / appointment): ");
                     String removeType = scanner.nextLine();
                     switch(removeType){
-                        case "staff":/*
-                            System.out.println("Please specify the doctor's first name: ");
-                            String docFirstName = scanner.nextLine();
-                            System.out.println("Please specify the doctor's last name: ");
-                            String docLastName = scanner.nextLine();
-                            Doctor doc = clinicalManagement.searchDoctor(clinic, docFirstName, docLastName);
-                            if(doc == null){
-                                System.out.println("This doctor does not exist !");
-                                break;
-                            }*/
-                            break;
-                        case "patient":
-                            /*
+                        case "staff":
+
                             System.out.println("Please specify staff's first name: ");
                             String staffFirstName = scanner.nextLine();
                             System.out.println("Please specify staff's last name: ");
                             String staffLastName = scanner.nextLine();
-                            Doctor  = clinicalManagement.searchDoctor(clinic, docFirstName, docLastName);
-                            if(doc == null){
-                                System.out.println("This doctor does not exist !");
-                                break;
-                            }*/
+                            clinicalManagement.removeStaff(clinic, staffFirstName, staffLastName);
                             break;
-                        case "appointment":
-                            /*System.out.println("Please specify patient's first name: ");
+                        case "patient":
+                            System.out.println("Please specify patient's first name: ");
                             String patFirstName = scanner.nextLine();
                             System.out.println("Please specify patient's last name: ");
                             String patLastName = scanner.nextLine();
-                            Doctor doc = clinicalManagement.searchDoctor(clinic, docFirstName, docLastName);
-                            if(doc == null){
-                                System.out.println("This doctor does not exist !");
-                                break;
-                            }*/
+                            clinicalManagement.removePatient(clinic, patFirstName, patLastName);
+                            break;
+                        case "appointment":
+                            System.out.println("Please specify appointment's date: ");
+                            String aDate = scanner.nextLine();
+                            System.out.println("Please specify staff's first name: ");
+                            String docFirstName = scanner.nextLine();
+                            System.out.println("Please specify staff's last name: ");
+                            String docLastName = scanner.nextLine();
+                            System.out.println("Please specify patient's first name: ");
+                            String pFirstName = scanner.nextLine();
+                            System.out.println("Please specify patient's last name: ");
+                            String pLastName = scanner.nextLine();
+                            clinicalManagement.removeAppointment(clinic, aDate, docFirstName, docLastName, pFirstName, pLastName);
                             break;
                         default:
                             System.out.println("Invalid type");
