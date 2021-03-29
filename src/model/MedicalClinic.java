@@ -13,10 +13,6 @@ public class MedicalClinic {
         this.staff = staff;
     }
 
-    public void deleteStaff(int i) {
-        this.staff[i] = null;
-    }
-
     public Patient[] getPatients() {
         return patients;
     }
@@ -25,19 +21,11 @@ public class MedicalClinic {
         this.patients = patients;
     }
 
-    public void deletePatient(int i) {
-        this.patients[i] = null;
-    }
-
     public Appointment[] getAppointments() {
         return appointments;
     }
 
     public void setAppointments(Appointment[] appointments) {
         this.appointments = appointments;
-    }
-
-    public void deleteAppointment(int i) {
-        this.appointments[i] = null;
     }
 }

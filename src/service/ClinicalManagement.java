@@ -3,17 +3,21 @@ package service;
 import model.*;
 
 import javax.print.Doc;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class ClinicalManagement {
 
     public void addStaff(MedicalClinic clinic, MedicalStaff staff) {
         int nextAvailableIndex = getNumberOfStaff(clinic);
         clinic.getStaff()[nextAvailableIndex] = staff;
+        Arrays.sort(clinic.getStaff(),0, nextAvailableIndex + 1);
     }
 
     public void addPatient(MedicalClinic clinic, Patient patient) {
         int nextAvailableIndex = getNumberOfPatients(clinic);
         clinic.getPatients()[nextAvailableIndex] = patient;
+        Arrays.sort(clinic.getPatients(),0, nextAvailableIndex + 1);
     }
 
     public void addAppointment(MedicalClinic clinic, Appointment app) {
@@ -75,24 +79,24 @@ public class ClinicalManagement {
         return numberOfAppointments;
     }
 
-    public Patient searchPatient(MedicalClinic mc, String firstName, String lastName) {
-        for (Patient pat : mc.getPatients())
+    public Patient searchPatient(MedicalClinic clinic, String firstName, String lastName) {
+        for (Patient pat : clinic.getPatients())
             if (pat != null)
                 if (pat.getFirstName().equals(firstName) && pat.getLastName().equals(lastName))
                     return pat;
         return null;
     }
 
-    public Doctor searchDoctor(MedicalClinic mc, String firstName, String lastName) {
-        for (MedicalStaff doc : mc.getStaff())
+    public Doctor searchDoctor(MedicalClinic clinic, String firstName, String lastName) {
+        for (MedicalStaff doc : clinic.getStaff())
             if (doc instanceof Doctor)
                 if (doc.getFirstName().equals(firstName) && doc.getLastName().equals(lastName))
                     return (Doctor) doc;
         return null;
     }
 
-    public Assistant searchAssistant(MedicalClinic mc, String firstName, String lastName) {
-        for (MedicalStaff as : mc.getStaff())
+    public Assistant searchAssistant(MedicalClinic clinic, String firstName, String lastName) {
+        for (MedicalStaff as : clinic.getStaff())
             if (as instanceof Assistant)
                 if (as.getFirstName().equals(firstName) && as.getLastName().equals(lastName))
                     return (Assistant) as;
@@ -138,32 +142,44 @@ public class ClinicalManagement {
         System.out.println("Appointments: " + getNumberOfAppointments(clinic));
     }
 
-    public void removePatient(MedicalClinic mc, String firstName, String lastName) {
+    public void removePatient(MedicalClinic clinic, String firstName, String lastName) {
         int i = 0;
-        for (Patient pat : mc.getPatients()) {
+        for (Patient pat : clinic.getPatients()) {
             if (pat != null)
-                if (pat.getFirstName().equals(firstName) && pat.getLastName().equals(lastName))
-                    mc.deletePatient(i);
+                if (pat.getFirstName().equals(firstName) && pat.getLastName().equals(lastName)) {
+                    for (int j = i + 1; j < getNumberOfPatients(clinic); j++)
+                        clinic.getPatients()[j - 1] = clinic.getPatients()[j];
+                    clinic.getPatients()[getNumberOfPatients(clinic)-1] = null;
+                    break;
+                }
             i++;
         }
     }
 
-    public void removeStaff(MedicalClinic mc, String firstName, String lastName) {
+    public void removeStaff(MedicalClinic clinic, String firstName, String lastName) {
         int i = 0;
-        for (MedicalStaff staff : mc.getStaff()) {
+        for (MedicalStaff staff : clinic.getStaff()) {
             if (staff != null)
-                if (staff.getFirstName().equals(firstName) && staff.getLastName().equals(lastName))
-                    mc.deleteStaff(i);
+                if (staff.getFirstName().equals(firstName) && staff.getLastName().equals(lastName)){
+                    for (int j = i + 1; j < getNumberOfStaff(clinic); j++)
+                        clinic.getStaff()[j - 1] = clinic.getStaff()[j];
+                    clinic.getStaff()[getNumberOfStaff(clinic)-1] = null;
+                    break;
+                }
             i++;
         }
     }
 
-    public void removeAppointment(MedicalClinic mc, String date, String docFirstName, String docLastName, String patFirstName, String patLastName) {
+    public void removeAppointment(MedicalClinic clinic, String date, String docFirstName, String docLastName, String patFirstName, String patLastName) {
         int i = 0;
-        for (Appointment a : mc.getAppointments()) {
+        for (Appointment a : clinic.getAppointments()) {
             if (a != null)
-                if (a.getDate().equals(date) && a.getDoc().getFirstName().equals(docFirstName) && a.getDoc().getLastName().equals(docLastName) && a.getPat().getFirstName().equals(patFirstName) && a.getPat().getLastName().equals(patLastName))
-                    mc.deleteAppointment(i);
+                if (a.getDate().equals(date) && a.getDoc().getFirstName().equals(docFirstName) && a.getDoc().getLastName().equals(docLastName) && a.getPat().getFirstName().equals(patFirstName) && a.getPat().getLastName().equals(patLastName)) {
+                    for (int j = i + 1; j < getNumberOfAppointments(clinic); j++)
+                        clinic.getAppointments()[j - 1] = clinic.getAppointments()[j];
+                    clinic.getAppointments()[getNumberOfAppointments(clinic)-1] = null;
+                    break;
+                }
             i++;
         }
     }

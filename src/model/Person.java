@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Person extends Object{
+public abstract class Person extends Object implements Comparable{
     protected long id;
     protected String firstName;
     protected String lastName;
@@ -68,5 +68,12 @@ public abstract class Person extends Object{
     @Override //annotation
     public String toString() {
         return firstName + " / " + lastName + " / " + age + " / " + sex + " / " + phoneNumber;
+    }
+
+    @Override
+    public int compareTo(Object o){
+        if (this.lastName.compareTo(((Person) o).getLastName()) == 0)
+            return this.firstName.compareTo(((Person) o).getFirstName());
+        return this.lastName.compareTo(((Person) o).getLastName());
     }
 }
