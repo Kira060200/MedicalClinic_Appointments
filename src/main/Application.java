@@ -139,7 +139,7 @@ public class Application {
                             String date = scanner.nextLine();
                             System.out.println("Please specify the price: ");
                             float price = Float.valueOf(scanner.nextLine());
-                            //TODO verify if this works: add class method to get the doctor by name
+
                             System.out.println("Please specify the doctor's first_name: ");
                             String docFirstName = scanner.nextLine();
                             System.out.println("Please specify the doctor's last name: ");
@@ -149,7 +149,7 @@ public class Application {
                                 System.out.println("This doctor does not exist !");
                                 break;
                             }
-                            //TODO verify if this works: add class method to get the patient by name
+
                             System.out.println("Please specify the patient's first_name: ");
                             String patFirstName = scanner.nextLine();
                             System.out.println("Please specify the patient's last name: ");
@@ -162,20 +162,20 @@ public class Application {
 
                             System.out.println("Please specify the type of appointment (consultation / surgery): ");
                             String appointmentType = scanner.nextLine();
-                            //TODO test this
                             switch(appointmentType) {
-                                case "consultation: ":
+                                case "consultation":
                                     System.out.println("Please specify the type of disease: ");
                                     String diseaseType = scanner.nextLine();
-                                    //TODO finish this
                                     //TODO maybe create one without prescription and then make an update method ?
+                                    MedicalConsultation consultation = new MedicalConsultation(new Random().nextInt(100), date, price, doc, pat, diseaseType);
+                                    clinicalManagement.addAppointment(clinic, consultation);
                                     break;
-                                case "surgery: ":
+                                case "surgery":
                                     System.out.println("Please specify the type of surgery: ");
                                     String surgeryType = scanner.nextLine();
-                                    System.out.println("Please specify the patient's first_name: ");
+                                    System.out.println("Please specify the assistant's first_name: ");
                                     String asFirstName = scanner.nextLine();
-                                    System.out.println("Please specify the patient's last name: ");
+                                    System.out.println("Please specify the assistant's last name: ");
                                     String asLastName = scanner.nextLine();
                                     Assistant as = clinicalManagement.searchAssistant(clinic, asFirstName, asLastName);
                                     if(as == null){
@@ -187,7 +187,6 @@ public class Application {
                                     break;
                                 default: System.out.println("This appointment type doesn't exist");
                             }
-                            //TODO create the appointment and add it to MedicalClinic
                             break;
                         default: System.out.println("Invalid type");
                     }

@@ -25,4 +25,9 @@ public class MedicalSurgery extends Appointment{
     public void setAs(Assistant as) {
         this.as = as;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\nSurgery type: " + type ;
+    }
 }

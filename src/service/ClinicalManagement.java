@@ -17,7 +17,7 @@ public class ClinicalManagement {
     }
 
     public void addAppointment(MedicalClinic clinic, Appointment app) {
-        int nextAvailableIndex = getNumberOfPatients(clinic);
+        int nextAvailableIndex = getNumberOfAppointments(clinic);
         clinic.getAppointments()[nextAvailableIndex] = app;
     }
 

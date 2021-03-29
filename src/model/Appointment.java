@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Appointment {
+public abstract class Appointment extends Object{
     protected long id;
     protected String date;
     protected float price;
@@ -53,5 +53,10 @@ public abstract class Appointment {
 
     public void setPat(Patient pat) {
         this.pat = pat;
+    }
+
+    @Override //annotation
+    public String toString() {
+        return "Date: " + date + "\nPrice: " + price + "\nDoctor: " + doc + "\nPatient: " + pat;
     }
 }
