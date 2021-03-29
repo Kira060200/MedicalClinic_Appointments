@@ -34,9 +34,9 @@ Lista actiuni:
 12 remove patient
 13 remove medical staff
 14 remove appointment
-15 update person (age, phone)
-16 update appointment (date)
-17 update staff (salary, experience)
+15 update patient (age, phone)
+16 update staff (age, phone, salary, experience)
+17 update appointment (date)
 
 Lista obiecte:
 1 MedicalClinic
