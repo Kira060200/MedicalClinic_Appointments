@@ -2,11 +2,12 @@ package service;
 
 import model.*;
 
-import javax.print.Doc;
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class ClinicalManagement {
+    private final PersonService personService = new PersonService();
+    private final StaffService staffService = new StaffService();
+    private final AppointmentService appointmentService = new AppointmentService();
 
     public void addStaff(MedicalClinic clinic, MedicalStaff staff) {
         int nextAvailableIndex = getNumberOfStaff(clinic);
@@ -182,5 +183,25 @@ public class ClinicalManagement {
                 }
             i++;
         }
+    }
+
+    public void updateAge (Person person, int age) {
+        personService.updateAge(person, age);
+    }
+
+    public void updatePhone (Person person, String phone) {
+        personService.updatePhone(person, phone);
+    }
+
+    public void updateSalary (MedicalStaff staff, float salary) {
+        staffService.updateSalary(staff, salary);
+    }
+
+    public void updateExperience (MedicalStaff staff, int experience) {
+        staffService.updateExperience(staff, experience);
+    }
+
+    public void updateDate(Appointment appointment, String date){
+        appointmentService.updateDate(appointment, date);
     }
 }

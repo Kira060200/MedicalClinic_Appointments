@@ -36,7 +36,7 @@ Lista actiuni:
 14 remove appointment
 15 update person (age, phone)
 16 update appointment (date)
-17 update staff (salary)
+17 update staff (salary, experience)
 
 Lista obiecte:
 1 MedicalClinic
@@ -66,7 +66,7 @@ public class Application {
         ClinicalManagement clinicalManagement = new ClinicalManagement();
 
         Scanner scanner = new Scanner(System.in);
-        //TODO: stergere si actualizare (si o sortare dupa nume pentru pacienti)
+        //TODO: case pentru actualizare (update)
         while(true) {
             System.out.println("Please type a command (overview / add / view / stats / remove / update / exit): ");
             String line = scanner.nextLine();
@@ -103,10 +103,41 @@ public class Application {
                                         case "doctor" :
                                             System.out.println("Please specify branch: ");
                                             String branch = scanner.nextLine();
-                                            //Assistant[] assistant = new Assistant[10];
-                                            MedicalStaff doc = new Doctor(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, salary, experience, branch);
-                                            //TODO: doctor should have assistants (maybe an update that appends them?)
-                                            clinicalManagement.addStaff(clinic, doc);
+                                            System.out.println("Does this doctor have an assistant? [yes/no] (yes = it has to be already added in the clinic database)");
+                                            String checkAssistant = scanner.nextLine();
+                                            //TODO: test if this assistantArray thing works (specially if you do this twice to see if references get messed up)
+                                            switch(checkAssistant){
+                                                case "yes":
+                                                    int number = 0;
+                                                    System.out.println("How many? ");
+                                                    number = Integer.valueOf(scanner.nextLine());
+                                                    Assistant[] assistantArray = new Assistant[number];
+                                                    int i = 0;
+                                                    while(i < number){
+                                                        System.out.println("Please specify the assistant's first name: ");
+                                                        String asFirstName = scanner.nextLine();
+                                                        System.out.println("Please specify the assistant's last name: ");
+                                                        String asLastName = scanner.nextLine();
+                                                        Assistant as = clinicalManagement.searchAssistant(clinic, asFirstName, asLastName);
+                                                        if(as == null){
+                                                            System.out.println("This assistant does not exist !");
+                                                            break;
+                                                        }
+                                                        else{
+                                                            assistantArray[i] = as;
+                                                            i++;
+                                                        }
+                                                    }
+                                                    MedicalStaff doctor = new Doctor(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, salary, experience, branch, assistantArray.clone());
+                                                    clinicalManagement.addStaff(clinic, doctor);
+                                                    break;
+                                                case "no":
+                                                    MedicalStaff doc = new Doctor(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, salary, experience, branch);
+                                                    clinicalManagement.addStaff(clinic, doc);
+                                                    break;
+                                                default: System.out.println("Invalid answer.");
+                                            }
+
                                             break;
                                         case "assistant" :
                                             System.out.println("Is the assistant a resident? [yes/no]");
@@ -170,9 +201,34 @@ public class Application {
                                 case "consultation":
                                     System.out.println("Please specify the type of disease: ");
                                     String diseaseType = scanner.nextLine();
-                                    //TODO maybe create one without prescription and then make an update method ?
-                                    MedicalConsultation consultation = new MedicalConsultation(new Random().nextInt(100), date, price, doc, pat, diseaseType);
-                                    clinicalManagement.addAppointment(clinic, consultation);
+                                    //TODO test if this thing works (+ to see if references get messed up)
+                                    System.out.println("Does this consultation have an prescription? [yes/no]");
+                                    String checkPrescription = scanner.nextLine();
+                                    switch(checkPrescription){
+                                        case "yes":
+                                            int number = 0;
+                                            System.out.println("How many drugs? ");
+                                            number = Integer.valueOf(scanner.nextLine());
+                                            Drug[] drugArray = new Drug[number];
+                                            int i = 0;
+                                            while(i < number){
+                                                System.out.println("Please specify drug's name: ");
+                                                String drugName = scanner.nextLine();
+                                                System.out.println("Please specify drug's price: ");
+                                                float drugPrice = Float.valueOf(scanner.nextLine());
+                                                drugArray[i] = new Drug(new Random().nextInt(100), drugName, drugPrice);
+                                                i++;
+                                            }
+                                            MedicalConsultation consultation = new MedicalConsultation(new Random().nextInt(100), date, price, doc, pat, diseaseType, new Prescription(new Random().nextInt(100), drugArray.clone()));
+                                            clinicalManagement.addAppointment(clinic, consultation);
+                                            break;
+                                        case "no":
+                                            MedicalConsultation cons = new MedicalConsultation(new Random().nextInt(100), date, price, doc, pat, diseaseType);
+                                            clinicalManagement.addAppointment(clinic, cons);
+                                            break;
+                                        default: System.out.println("Invalid answer.");
+                                    }
+
                                     break;
                                 case "surgery":
                                     System.out.println("Please specify the type of surgery: ");
