@@ -60,7 +60,7 @@ public class ClinicalManagement {
     public void printAppointmentsDetails(MedicalClinic clinic) {
         for(Appointment a : clinic.getAppointments()) {
             if(a != null) {
-                System.out.println(a);
+                System.out.println(a + "\n");
             }
         }
     }
@@ -97,5 +97,44 @@ public class ClinicalManagement {
                 if (as.getFirstName().equals(firstName) && as.getLastName().equals(lastName))
                     return (Assistant) as;
         return null;
+    }
+
+    public void showStatsAppointments(MedicalClinic clinic) {
+        int numberOfConsultations= 0;
+        int numberOfSurgeries= 0;
+        for(Appointment a : clinic.getAppointments()) {
+            if(a instanceof MedicalConsultation) {
+                numberOfConsultations++;
+            }
+            if(a instanceof MedicalSurgery) {
+                numberOfSurgeries++;
+            }
+        }
+        System.out.println("In the database, there are:");
+        System.out.println(numberOfConsultations + " consultations");
+        System.out.println(numberOfSurgeries + " surgeries");
+    }
+
+    public void showStatsStaff(MedicalClinic clinic) {
+        int numberOfAssistants = 0;
+        int numberOfDoctors = 0;
+        for(MedicalStaff p : clinic.getStaff()) {
+            if(p instanceof Assistant) {
+                numberOfAssistants++;
+            }
+            if(p instanceof Doctor) {
+                numberOfDoctors++;
+            }
+        }
+        System.out.println("In the database, there are:");
+        System.out.println(numberOfAssistants + " assistants");
+        System.out.println(numberOfDoctors + " doctors");
+    }
+
+    public void showOverview(MedicalClinic clinic){
+        System.out.println("The database has the following records:");
+        System.out.println("Medical staff: " + getNumberOfStaff(clinic));
+        System.out.println("Patients: " + getNumberOfPatients(clinic));
+        System.out.println("Appointments: " + getNumberOfAppointments(clinic));
     }
 }

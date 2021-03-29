@@ -19,28 +19,25 @@ model:
 service:
     ClinicalManagement
 
-List actiuni:
+Lista actiuni:
 1 add patient
 2 add doctor
 3 add assistant
 4 add surgery
 5 add consultation
 6 view patient
-7 view doctor
-8 view assistant
-9 view surgery
-10 view consultation
-11 get number of patients with diseases
-12 get number of medical staff by type
-13 get number of appointments by type
-14 overview (patients, medical staff, appointments)
-15 delete patient
-16 delete medical staff ???
-17 delete appointment
-18 update patient (age)
-19 update appointment (date)
+7 view staff (doctor + assistant)
+8 view appointment (consultation + surgery)
+9 get number of medical staff by type
+10 get number of appointments by type
+11 overview (patients, medical staff, appointments)
+12 remove patient
+13 remove medical staff
+14 remove appointment
+15 update patient (age)
+16 update appointment (date)
 
-List obiecte:
+Lista obiecte:
 1 MedicalClinic
 2 MedicalConsultation
 3 MedicalSurgery
@@ -50,6 +47,7 @@ List obiecte:
 7 Drug
 8 Prescription
 9 ClinicalManagement
+10 PatientService
 
  */
 
@@ -65,11 +63,14 @@ public class Application {
         ClinicalManagement clinicalManagement = new ClinicalManagement();
 
         Scanner scanner = new Scanner(System.in);
-        //TODO: stergere si actualizare (poate si o sortare)
+        //TODO: stergere si actualizare (si o sortare dupa nume pentru pacienti)
         while(true) {
-            System.out.println("Please type a command: ");
+            System.out.println("Please type a command (overview / add / view / stats / delete / update / exit): ");
             String line = scanner.nextLine();
             switch(line) {
+                case "overview" :
+                    clinicalManagement.showOverview(clinic);
+                    break;
                 case "add":
                     System.out.println("Please choose what would you like to add (person / appointment): ");
                     String pick = scanner.nextLine();
@@ -140,7 +141,7 @@ public class Application {
                             System.out.println("Please specify the price: ");
                             float price = Float.valueOf(scanner.nextLine());
 
-                            System.out.println("Please specify the doctor's first_name: ");
+                            System.out.println("Please specify the doctor's first name: ");
                             String docFirstName = scanner.nextLine();
                             System.out.println("Please specify the doctor's last name: ");
                             String docLastName = scanner.nextLine();
@@ -150,7 +151,7 @@ public class Application {
                                 break;
                             }
 
-                            System.out.println("Please specify the patient's first_name: ");
+                            System.out.println("Please specify the patient's first name: ");
                             String patFirstName = scanner.nextLine();
                             System.out.println("Please specify the patient's last name: ");
                             String patLastName = scanner.nextLine();
@@ -173,7 +174,7 @@ public class Application {
                                 case "surgery":
                                     System.out.println("Please specify the type of surgery: ");
                                     String surgeryType = scanner.nextLine();
-                                    System.out.println("Please specify the assistant's first_name: ");
+                                    System.out.println("Please specify the assistant's first name: ");
                                     String asFirstName = scanner.nextLine();
                                     System.out.println("Please specify the assistant's last name: ");
                                     String asLastName = scanner.nextLine();
@@ -203,6 +204,62 @@ public class Application {
                             break;
                         case "appointment":
                             clinicalManagement.printAppointmentsDetails(clinic);
+                            break;
+                        default:
+                            System.out.println("Invalid type");
+                    }
+                    break;
+                case "stats" :
+                    System.out.println("Please choose what would you like to get statistics for (staff / appointment): ");
+                    String statType = scanner.nextLine();
+                    switch(statType){
+                        case "staff":
+                            clinicalManagement.showStatsStaff(clinic);
+                            break;
+                        case "appointment":
+                            clinicalManagement.showStatsAppointments(clinic);
+                            break;
+                        default:
+                            System.out.println("Invalid type");
+                    }
+                    break;
+                case "remove" :
+                    System.out.println("Please choose what would you like to remove (staff / patient / appointment): ");
+                    String removeType = scanner.nextLine();
+                    switch(removeType){
+                        case "staff":/*
+                            System.out.println("Please specify the doctor's first name: ");
+                            String docFirstName = scanner.nextLine();
+                            System.out.println("Please specify the doctor's last name: ");
+                            String docLastName = scanner.nextLine();
+                            Doctor doc = clinicalManagement.searchDoctor(clinic, docFirstName, docLastName);
+                            if(doc == null){
+                                System.out.println("This doctor does not exist !");
+                                break;
+                            }*/
+                            break;
+                        case "patient":
+                            /*
+                            System.out.println("Please specify staff's first name: ");
+                            String staffFirstName = scanner.nextLine();
+                            System.out.println("Please specify staff's last name: ");
+                            String staffLastName = scanner.nextLine();
+                            Doctor  = clinicalManagement.searchDoctor(clinic, docFirstName, docLastName);
+                            if(doc == null){
+                                System.out.println("This doctor does not exist !");
+                                break;
+                            }*/
+                            break;
+                        case "appointment":
+                            /*System.out.println("Please specify patient's first name: ");
+                            String patFirstName = scanner.nextLine();
+                            System.out.println("Please specify patient's last name: ");
+                            String patLastName = scanner.nextLine();
+                            Doctor doc = clinicalManagement.searchDoctor(clinic, docFirstName, docLastName);
+                            if(doc == null){
+                                System.out.println("This doctor does not exist !");
+                                break;
+                            }*/
                             break;
                         default:
                             System.out.println("Invalid type");
