@@ -18,6 +18,9 @@ model:
     5 Prescription (id, []Drug)
 service:
     ClinicalManagement
+    PersonService
+    StaffService
+    AppointmentService
 
 Lista actiuni:
 1 add patient
