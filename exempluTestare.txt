@@ -1,0 +1,573 @@
+Please type a command (overview / add / view / stats / remove / update / exit):
+add
+Please choose what would you like to add (person / appointment):
+person
+Please specify first name:
+Marcu
+Please specify last name:
+Micu
+Please specify age:
+50
+Please specify sex:
+M
+Please specify phone number:
+48357
+Please choose person type (staff / patient):
+patient
+Please specify if the patient has any know diseases:
+
+Please type a command (overview / add / view / stats / remove / update / exit):
+add
+Please choose what would you like to add (person / appointment):
+person
+Please specify first name:
+Ana
+Please specify last name:
+Anabela
+Please specify age:
+22
+Please specify sex:
+F
+Please specify phone number:
+854967
+Please choose person type (staff / patient):
+patient
+Please specify if the patient has any know diseases:
+diabet
+Please type a command (overview / add / view / stats / remove / update / exit):
+add
+Please choose what would you like to add (person / appointment):
+person
+Please specify first name:
+Madalin
+Please specify last name:
+Costel
+Please specify age:
+30
+Please specify sex:
+M
+Please specify phone number:
+38457
+Please choose person type (staff / patient):
+staff
+Please specify the salary:
+2300
+Please specify experience in years:
+4
+Please choose medical staff (doctor / assistant):
+assistant
+Is the assistant a resident? [yes/no]
+no
+Please type a command (overview / add / view / stats / remove / update / exit):
+add
+Please choose what would you like to add (person / appointment):
+person
+Please specify first name:
+Anca
+Please specify last name:
+Ioana
+Please specify age:
+26
+Please specify sex:
+F
+Please specify phone number:
+43857
+Please choose person type (staff / patient):
+staff
+Please specify the salary:
+2300
+Please specify experience in years:
+2
+Please choose medical staff (doctor / assistant):
+assistant
+Is the assistant a resident? [yes/no]
+yes
+Please type a command (overview / add / view / stats / remove / update / exit):
+add
+Please choose what would you like to add (person / appointment):
+person
+Please specify first name:
+Maria
+Please specify last name:
+Ioana
+Please specify age:
+22
+Please specify sex:
+F
+Please specify phone number:
+48357
+Please choose person type (staff / patient):
+staff
+Please specify the salary:
+2000
+Please specify experience in years:
+1
+Please choose medical staff (doctor / assistant):
+assistant
+Is the assistant a resident? [yes/no]
+yes
+Please type a command (overview / add / view / stats / remove / update / exit):
+add
+Please choose what would you like to add (person / appointment):
+person
+Please specify first name:
+Gabriel
+Please specify last name:
+Constantin
+Please specify age:
+21
+Please specify sex:
+M
+Please specify phone number:
+3847893475
+Please choose person type (staff / patient):
+staff
+Please specify the salary:
+3000
+Please specify experience in years:
+1
+Please choose medical staff (doctor / assistant):
+doctor
+Please specify branch:
+calculatoare
+Does this doctor have an assistant? [yes/no] (yes = it has to be already added in the clinic database)
+no
+Please type a command (overview / add / view / stats / remove / update / exit):
+add
+Please choose what would you like to add (person / appointment):
+person
+Please specify first name:
+Mircea
+Please specify last name:
+Marin
+Please specify age:
+37
+Please specify sex:
+M
+Please specify phone number:
+34587
+Please choose person type (staff / patient):
+staff
+Please specify the salary:
+4556
+Please specify experience in years:
+3
+Please choose medical staff (doctor / assistant):
+doctor
+Please specify branch:
+neuro
+Does this doctor have an assistant? [yes/no] (yes = it has to be already added in the clinic database)
+yes
+How many?
+1
+Please specify the assistant's first name:
+Maria
+Please specify the assistant's last name:
+Ioana
+Please type a command (overview / add / view / stats / remove / update / exit):
+add
+Please choose what would you like to add (person / appointment):
+person
+Please specify first name:
+Madalin
+Please specify last name:
+Costel
+Please specify age:
+33
+Please specify sex:
+M
+Please specify phone number:
+345456545
+Please choose person type (staff / patient):
+staff
+Please specify the salary:
+6000
+Please specify experience in years:
+5
+Please choose medical staff (doctor / assistant):
+doctor
+Please specify branch:
+psiho
+Does this doctor have an assistant? [yes/no] (yes = it has to be already added in the clinic database)
+yes
+How many?
+2
+Please specify the assistant's first name:
+Anca
+Please specify the assistant's last name:
+Ioana
+Please specify the assistant's first name:
+Madalin
+Please specify the assistant's last name:
+Costel
+Please type a command (overview / add / view / stats / remove / update / exit):
+overview
+The database has the following records:
+Medical staff: 6
+Patients: 2
+Appointments: 0
+Please type a command (overview / add / view / stats / remove / update / exit):
+stats
+Please choose what would you like to get statistics for (staff / appointment):
+staff
+In the database, there are:
+3 assistants
+3 doctors
+Please type a command (overview / add / view / stats / remove / update / exit):
+view
+Please choose what would you like to visualize (staff / patient / appointment):
+staff
+Gabriel / Constantin / 21 / M / 3847893475 / 3000.0 / 1 / calculatoare
+Madalin / Costel / 30 / M / 38457 / 2300.0 / 4
+Madalin / Costel / 33 / M / 345456545 / 6000.0 / 5 / psiho
+Anca / Ioana / 26 / F / 43857 / 2300.0 / 2 / resident
+Maria / Ioana / 22 / F / 48357 / 2000.0 / 1 / resident
+Mircea / Marin / 37 / M / 34587 / 4556.0 / 3 / neuro
+Please type a command (overview / add / view / stats / remove / update / exit):
+add
+Please choose what would you like to add (person / appointment):
+appointment
+Please specify the date for the appointment:
+02-03-2021
+Please specify the price:
+111
+Please specify the doctor's first name:
+Gabriel
+Please specify the doctor's last name:
+Constantin
+Please specify the patient's first name:
+Marcu
+Please specify the patient's last name:
+Mincu
+This patient does not exist !
+Please type a command (overview / add / view / stats / remove / update / exit):
+add
+Please choose what would you like to add (person / appointment):
+appointment
+Please specify the date for the appointment:
+01-02-2021
+Please specify the price:
+1233
+Please specify the doctor's first name:
+Gabriel
+Please specify the doctor's last name:
+Constantin
+Please specify the patient's first name:
+Marcu
+Please specify the patient's last name:
+Micu
+Please specify the type of appointment (consultation / surgery):
+consultation
+Please specify the type of disease:
+heart
+Does this consultation have an prescription? [yes/no]
+no
+Please type a command (overview / add / view / stats / remove / update / exit):
+add
+Please choose what would you like to add (person / appointment):
+appointment
+Please specify the date for the appointment:
+03-04-2021
+Please specify the price:
+123
+Please specify the doctor's first name:
+Gabriel
+Please specify the doctor's last name:
+Constantin
+Please specify the patient's first name:
+Marcu
+Please specify the patient's last name:
+Micu
+Please specify the type of appointment (consultation / surgery):
+consultation
+Please specify the type of disease:
+anxiety
+Does this consultation have an prescription? [yes/no]
+yes
+How many drugs?
+2
+Please specify drug's name:
+xanax
+Please specify drug's price:
+12.3
+Please specify drug's name:
+somnlinistit
+Please specify drug's price:
+11
+Please type a command (overview / add / view / stats / remove / update / exit):
+view
+Please choose what would you like to visualize (staff / patient / appointment):
+patient
+Ana / Anabela / 22 / F / 854967 / Diseases: diabet|
+Marcu / Micu / 50 / M / 48357 / Diseases: None
+Please type a command (overview / add / view / stats / remove / update / exit):
+add
+Please choose what would you like to add (person / appointment):
+appointment
+Please specify the date for the appointment:
+05-06-2021
+Please specify the price:
+456
+Please specify the doctor's first name:
+Mircea
+Please specify the doctor's last name:
+Marin
+Please specify the patient's first name:
+Ana
+Please specify the patient's last name:
+Anabela
+Please specify the type of appointment (consultation / surgery):
+consultation
+Please specify the type of disease:
+brain fog
+Does this consultation have an prescription? [yes/no]
+yes
+How many drugs?
+1
+Please specify drug's name:
+chillpill
+Please specify drug's price:
+65
+Please type a command (overview / add / view / stats / remove / update / exit):
+add
+Please choose what would you like to add (person / appointment):
+appointment
+Please specify the date for the appointment:
+07-08-2021
+Please specify the price:
+777
+Please specify the doctor's first name:
+Mircea
+Please specify the doctor's last name:
+Marin
+Please specify the patient's first name:
+Ana
+Please specify the patient's last name:
+Anabela
+Please specify the type of appointment (consultation / surgery):
+surgery
+Please specify the type of surgery:
+brain tumor extraction
+Please specify the assistant's first name:
+Maria
+Please specify the assistant's last name:
+Ioana
+Please type a command (overview / add / view / stats / remove / update / exit):
+overview
+The database has the following records:
+Medical staff: 6
+Patients: 2
+Appointments: 4
+Please type a command (overview / add / view / stats / remove / update / exit):
+view
+Please choose what would you like to visualize (staff / patient / appointment):
+appointment
+Date: 01-02-2021
+Price: 1233.0
+Doctor: Gabriel / Constantin / 21 / M / 3847893475 / 3000.0 / 1 / calculatoare
+Patient: Marcu / Micu / 50 / M / 48357 / Diseases: None
+Disease: heart
+
+Date: 03-04-2021
+Price: 123.0
+Doctor: Gabriel / Constantin / 21 / M / 3847893475 / 3000.0 / 1 / calculatoare
+Patient: Marcu / Micu / 50 / M / 48357 / Diseases: None
+Disease: anxiety
+
+Date: 05-06-2021
+Price: 456.0
+Doctor: Mircea / Marin / 37 / M / 34587 / 4556.0 / 3 / neuro
+Patient: Ana / Anabela / 22 / F / 854967 / Diseases: diabet|
+Disease: brain fog
+
+Date: 07-08-2021
+Price: 777.0
+Doctor: Mircea / Marin / 37 / M / 34587 / 4556.0 / 3 / neuro
+Patient: Ana / Anabela / 22 / F / 854967 / Diseases: diabet|
+Surgery type: brain tumor extraction
+
+Please type a command (overview / add / view / stats / remove / update / exit):
+remove
+Please choose what would you like to remove (staff / patient / appointment):
+staff
+Please specify staff's first name:
+Gabriel
+Please specify staff's last name:
+Constantin
+Please type a command (overview / add / view / stats / remove / update / exit):
+remove
+Please choose what would you like to remove (staff / patient / appointment):
+patient
+Please specify patient's first name:
+Marcu
+Please specify patient's last name:
+Micu
+Please type a command (overview / add / view / stats / remove / update / exit):
+remove
+Please choose what would you like to remove (staff / patient / appointment):
+appointment
+Please specify appointment's date:
+01-02-2021
+Please specify staff's first name:
+Gabriel
+Please specify staff's last name:
+Constantin
+Please specify patient's first name:
+Marcu
+Please specify patient's last name:
+Micu
+Please type a command (overview / add / view / stats / remove / update / exit):
+view
+Please choose what would you like to visualize (staff / patient / appointment):
+appointment
+Date: 03-04-2021
+Price: 123.0
+Doctor: Gabriel / Constantin / 21 / M / 3847893475 / 3000.0 / 1 / calculatoare
+Patient: Marcu / Micu / 50 / M / 48357 / Diseases: None
+Disease: anxiety
+
+Date: 05-06-2021
+Price: 456.0
+Doctor: Mircea / Marin / 37 / M / 34587 / 4556.0 / 3 / neuro
+Patient: Ana / Anabela / 22 / F / 854967 / Diseases: diabet|
+Disease: brain fog
+
+Date: 07-08-2021
+Price: 777.0
+Doctor: Mircea / Marin / 37 / M / 34587 / 4556.0 / 3 / neuro
+Patient: Ana / Anabela / 22 / F / 854967 / Diseases: diabet|
+Surgery type: brain tumor extraction
+
+Please type a command (overview / add / view / stats / remove / update / exit):
+view
+Please choose what would you like to visualize (staff / patient / appointment):
+staff
+Madalin / Costel / 30 / M / 38457 / 2300.0 / 4
+Madalin / Costel / 33 / M / 345456545 / 6000.0 / 5 / psiho
+Anca / Ioana / 26 / F / 43857 / 2300.0 / 2 / resident
+Maria / Ioana / 22 / F / 48357 / 2000.0 / 1 / resident
+Mircea / Marin / 37 / M / 34587 / 4556.0 / 3 / neuro
+Please type a command (overview / add / view / stats / remove / update / exit):
+overview
+The database has the following records:
+Medical staff: 5
+Patients: 1
+Appointments: 3
+Please type a command (overview / add / view / stats / remove / update / exit):
+update
+Please choose what would you like to update (patient / staff / appointment):
+patient
+Please specify the patient's first name:
+Ana
+Please specify the patient's last name:
+Anabela
+Please specify what would you like to update (age / phone):
+age
+Please specify age:
+99
+Please type a command (overview / add / view / stats / remove / update / exit):
+update
+Please choose what would you like to update (patient / staff / appointment):
+staff
+Please specify staff member's first name:
+Maria
+Please specify staff member's last name:
+Ioana
+Please specify what would you like to update (age / phone / salary / experience):
+salary
+Please specify salary:
+99999
+Please type a command (overview / add / view / stats / remove / update / exit):
+update
+Please choose what would you like to update (patient / staff / appointment):
+appointment
+Please specify the old date for the appointment:
+02-03-2021
+Please specify the doctor's first name:
+Gabriel sdf
+Please specify the doctor's last name:
+dfsf
+Please specify the patient's first name:
+fgdfg
+Please specify the patient's last name:
+ghfghf
+This appointment does not exist !
+Please type a command (overview / add / view / stats / remove / update / exit):
+update
+Please choose what would you like to update (patient / staff / appointment):
+appointment
+Please specify the old date for the appointment:
+04-05-2021
+Please specify the doctor's first name:
+dsf
+Please specify the doctor's last name:
+fds
+Please specify the patient's first name:
+tre
+Please specify the patient's last name:
+ghf
+This appointment does not exist !
+Please type a command (overview / add / view / stats / remove / update / exit):
+update
+Please choose what would you like to update (patient / staff / appointment):
+appointment
+Please specify the old date for the appointment:
+07-08-2021
+Please specify the doctor's first name:
+Mircea
+Please specify the doctor's last name:
+Marin
+Please specify the patient's first name:
+Ana
+Please specify the patient's last name:
+Anabela
+Please specify the new date for the appointment:
+12-12-2021
+Please type a command (overview / add / view / stats / remove / update / exit):
+view
+Please choose what would you like to visualize (staff / patient / appointment):
+appointment
+Date: 03-04-2021
+Price: 123.0
+Doctor: Gabriel / Constantin / 21 / M / 3847893475 / 3000.0 / 1 / calculatoare
+Patient: Marcu / Micu / 50 / M / 48357 / Diseases: None
+Disease: anxiety
+
+Date: 05-06-2021
+Price: 456.0
+Doctor: Mircea / Marin / 37 / M / 34587 / 4556.0 / 3 / neuro
+Patient: Ana / Anabela / 99 / F / 854967 / Diseases: diabet|
+Disease: brain fog
+
+Date: 12-12-2021
+Price: 777.0
+Doctor: Mircea / Marin / 37 / M / 34587 / 4556.0 / 3 / neuro
+Patient: Ana / Anabela / 99 / F / 854967 / Diseases: diabet|
+Surgery type: brain tumor extraction
+
+Please type a command (overview / add / view / stats / remove / update / exit):
+view
+Please choose what would you like to visualize (staff / patient / appointment):
+patient
+Ana / Anabela / 99 / F / 854967 / Diseases: diabet|
+Please type a command (overview / add / view / stats / remove / update / exit):
+view
+Please choose what would you like to visualize (staff / patient / appointment):
+staff
+Madalin / Costel / 30 / M / 38457 / 2300.0 / 4
+Madalin / Costel / 33 / M / 345456545 / 6000.0 / 5 / psiho
+Anca / Ioana / 26 / F / 43857 / 2300.0 / 2 / resident
+Maria / Ioana / 22 / F / 48357 / 99999.0 / 1 / resident
+Mircea / Marin / 37 / M / 34587 / 4556.0 / 3 / neuro
+Please type a command (overview / add / view / stats / remove / update / exit):
+stats
+Please choose what would you like to get statistics for (staff / appointment):
+appointment
+In the database, there are:
+2 consultations
+1 surgeries
+Please type a command (overview / add / view / stats / remove / update / exit):
+exit
+Bye bye!
+
+Process finished with exit code 0

@@ -66,7 +66,6 @@ public class Application {
         ClinicalManagement clinicalManagement = new ClinicalManagement();
 
         Scanner scanner = new Scanner(System.in);
-        //TODO: case pentru actualizare (update)
         while(true) {
             System.out.println("Please type a command (overview / add / view / stats / remove / update / exit): ");
             String line = scanner.nextLine();
@@ -105,7 +104,6 @@ public class Application {
                                             String branch = scanner.nextLine();
                                             System.out.println("Does this doctor have an assistant? [yes/no] (yes = it has to be already added in the clinic database)");
                                             String checkAssistant = scanner.nextLine();
-                                            //TODO: test if this assistantArray thing works (specially if you do this twice to see if references get messed up)
                                             switch(checkAssistant){
                                                 case "yes":
                                                     int number = 0;
@@ -145,7 +143,6 @@ public class Application {
                                             MedicalStaff assistant;
                                             switch(resident){
                                                 case "yes":
-                                                    //TODO: check if you can replace this random with something unique (maybe with last array position from clinic)
                                                     assistant = new Assistant(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, salary, experience, true);
                                                     clinicalManagement.addStaff(clinic, assistant);
                                                     break;
@@ -201,7 +198,6 @@ public class Application {
                                 case "consultation":
                                     System.out.println("Please specify the type of disease: ");
                                     String diseaseType = scanner.nextLine();
-                                    //TODO test if this thing works (+ to see if references get messed up)
                                     System.out.println("Does this consultation have an prescription? [yes/no]");
                                     String checkPrescription = scanner.nextLine();
                                     switch(checkPrescription){
@@ -319,7 +315,6 @@ public class Application {
                     }
                     break;
                 case "update" :
-                    //TODO: check if all this update works
                     System.out.println("Please choose what would you like to update (patient / staff / appointment): ");
                     String updateType = scanner.nextLine();
                     switch(updateType){
