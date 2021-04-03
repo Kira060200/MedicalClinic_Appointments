@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Person extends Object implements Comparable{
+public abstract class Person implements Comparable <Person>{
     protected long id;
     protected String firstName;
     protected String lastName;
@@ -71,9 +71,23 @@ public abstract class Person extends Object implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o){
-        if (this.lastName.compareTo(((Person) o).getLastName()) == 0)
+    public int compareTo(Person o){
+        if(this.lastName == null && ((Person) o).getLastName() == null)
+            return 0;
+        if(this.lastName == null)
+            return 1;
+        if (((Person) o).getLastName() == null)
+            return -1;
+
+        if (this.lastName.compareTo(((Person) o).getLastName()) == 0) {
+            if(this.firstName == null && ((Person) o).getFirstName() == null)
+                return 0;
+            if(this.firstName == null)
+                return 1;
+            if (((Person) o).getFirstName() == null)
+                return -1;
             return this.firstName.compareTo(((Person) o).getFirstName());
+        }
         return this.lastName.compareTo(((Person) o).getLastName());
     }
 }
