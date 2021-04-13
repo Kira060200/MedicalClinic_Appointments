@@ -22,8 +22,7 @@ public class ClinicalManagement {
     }
 
     public void addAppointment(MedicalClinic clinic, Appointment app) {
-        int nextAvailableIndex = getNumberOfAppointments(clinic);
-        clinic.getAppointments()[nextAvailableIndex] = app;
+        clinic.getAppointments().add(app);
     }
 
     public void printStaffDetails(MedicalClinic clinic) {
@@ -192,9 +191,7 @@ public class ClinicalManagement {
         for (Appointment a : clinic.getAppointments()) {
             if (a != null && a.getDate() !=null && a.getDoc().getFirstName() != null && a.getDoc().getLastName() != null && a.getPat().getFirstName() != null && a.getPat().getLastName() != null)
                 if (a.getDate().equals(date) && a.getDoc().getFirstName().equals(docFirstName) && a.getDoc().getLastName().equals(docLastName) && a.getPat().getFirstName().equals(patFirstName) && a.getPat().getLastName().equals(patLastName)) {
-                    for (int j = i + 1; j < getNumberOfAppointments(clinic); j++)
-                        clinic.getAppointments()[j - 1] = clinic.getAppointments()[j];
-                    clinic.getAppointments()[getNumberOfAppointments(clinic)-1] = null;
+                    clinic.getAppointments().remove(i);
                     break;
                 }
             i++;

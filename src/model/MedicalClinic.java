@@ -1,9 +1,12 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MedicalClinic {
     private MedicalStaff[] staff = new MedicalStaff[100];
     private Patient[] patients = new Patient[100];
-    private Appointment[] appointments = new Appointment[100];
+    private List<Appointment> appointments = new ArrayList<Appointment>();
 
     public MedicalStaff[] getStaff() {
         return staff;
@@ -21,11 +24,11 @@ public class MedicalClinic {
         this.patients = patients;
     }
 
-    public Appointment[] getAppointments() {
+    public List<Appointment> getAppointments() {
         return appointments;
     }
 
-    public void setAppointments(Appointment[] appointments) {
+    public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
     }
 }
