@@ -5,7 +5,7 @@ package main;
 main:
     Application
 model:
-    1 MedicalClinic ([]MedicalStaff, []Patient, []Appointment)
+    1 MedicalClinic ([]MedicalStaff, TreeSet Patient, ArrayList Appointment)
     2 abstract Appointment (id, date, price, Doctor, Patient)
         2.1 MedicalConsultation (disease, Prescription)
         2.2 MedicalSurgery (type, Assistant)

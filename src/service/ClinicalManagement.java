@@ -17,7 +17,6 @@ public class ClinicalManagement {
 
     public void addPatient(MedicalClinic clinic, Patient patient) {
         clinic.getPatients().add(patient);
-        //Arrays.sort(clinic.getPatients(),0, nextAvailableIndex + 1);
     }
 
     public void addAppointment(MedicalClinic clinic, Appointment app) {
