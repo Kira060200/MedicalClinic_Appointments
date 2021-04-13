@@ -10,9 +10,7 @@ public class ClinicalManagement {
     private final AppointmentService appointmentService = new AppointmentService();
 
     public void addStaff(MedicalClinic clinic, MedicalStaff staff) {
-        int nextAvailableIndex = getNumberOfStaff(clinic);
-        clinic.getStaff()[nextAvailableIndex] = staff;
-        Arrays.sort(clinic.getStaff(),0, nextAvailableIndex + 1);
+        clinic.getStaff().add(staff);
     }
 
     public void addPatient(MedicalClinic clinic, Patient patient) {
@@ -157,28 +155,22 @@ public class ClinicalManagement {
     }
 
     public void removePatient(MedicalClinic clinic, String firstName, String lastName) {
-        int i = 0;
         for (Patient pat : clinic.getPatients()) {
             if (pat != null && pat.getFirstName() != null && pat.getLastName() != null)
                 if (pat.getFirstName().equals(firstName) && pat.getLastName().equals(lastName)) {
                     clinic.getPatients().remove(pat);
                     break;
                 }
-            i++;
         }
     }
 
     public void removeStaff(MedicalClinic clinic, String firstName, String lastName) {
-        int i = 0;
         for (MedicalStaff staff : clinic.getStaff()) {
             if (staff != null && staff.getFirstName() != null && staff.getLastName() != null)
                 if (staff.getFirstName().equals(firstName) && staff.getLastName().equals(lastName)){
-                    for (int j = i + 1; j < getNumberOfStaff(clinic); j++)
-                        clinic.getStaff()[j - 1] = clinic.getStaff()[j];
-                    clinic.getStaff()[getNumberOfStaff(clinic)-1] = null;
+                    clinic.getStaff().remove(staff);
                     break;
                 }
-            i++;
         }
     }
 

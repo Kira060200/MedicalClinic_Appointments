@@ -6,15 +6,15 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class MedicalClinic {
-    private MedicalStaff[] staff = new MedicalStaff[100];
+    private Set<MedicalStaff> staff = new TreeSet<>();
     private Set<Patient> patients = new TreeSet<>();
     private List<Appointment> appointments = new ArrayList<>();
 
-    public MedicalStaff[] getStaff() {
+    public Set<MedicalStaff> getStaff() {
         return staff;
     }
 
-    public void setStaff(MedicalStaff[] staff) {
+    public void setStaff(Set<MedicalStaff> staff) {
         this.staff = staff;
     }
 
