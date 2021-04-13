@@ -2,11 +2,13 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class MedicalClinic {
     private MedicalStaff[] staff = new MedicalStaff[100];
-    private Patient[] patients = new Patient[100];
-    private List<Appointment> appointments = new ArrayList<Appointment>();
+    private Set<Patient> patients = new TreeSet<>();
+    private List<Appointment> appointments = new ArrayList<>();
 
     public MedicalStaff[] getStaff() {
         return staff;
@@ -16,11 +18,11 @@ public class MedicalClinic {
         this.staff = staff;
     }
 
-    public Patient[] getPatients() {
+    public Set<Patient> getPatients() {
         return patients;
     }
 
-    public void setPatients(Patient[] patients) {
+    public void setPatients(Set<Patient> patients) {
         this.patients = patients;
     }
 
