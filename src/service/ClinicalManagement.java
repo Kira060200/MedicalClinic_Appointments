@@ -8,17 +8,31 @@ public class ClinicalManagement {
     private final PersonService personService = new PersonService();
     private final StaffService staffService = new StaffService();
     private final AppointmentService appointmentService = new AppointmentService();
+    private final LoggingService loggingService= new LoggingService();
 
     public void addStaff(MedicalClinic clinic, MedicalStaff staff) {
         clinic.getStaff().add(staff);
+        if (staff instanceof Doctor){
+            loggingService.logEvent("addDoctor");
+        }
+        else{
+            loggingService.logEvent("addAssistant");
+        }
     }
 
     public void addPatient(MedicalClinic clinic, Patient patient) {
         clinic.getPatients().add(patient);
+        loggingService.logEvent("addPatient");
     }
 
     public void addAppointment(MedicalClinic clinic, Appointment app) {
         clinic.getAppointments().add(app);
+        if (app instanceof MedicalConsultation){
+            loggingService.logEvent("addConsultation");
+        }
+        else{
+            loggingService.logEvent("addSurgery");
+        }
     }
 
     public void printStaffDetails(MedicalClinic clinic) {
@@ -27,6 +41,7 @@ public class ClinicalManagement {
                 System.out.println(p);
             }
         }
+        loggingService.logEvent("viewStaff");
     }
 
     private int getNumberOfStaff(MedicalClinic clinic) {
@@ -45,6 +60,7 @@ public class ClinicalManagement {
                 System.out.println(p);
             }
         }
+        loggingService.logEvent("viewPatient");
     }
 
     private int getNumberOfPatients(MedicalClinic clinic) {
@@ -63,6 +79,7 @@ public class ClinicalManagement {
                 System.out.println(a + "\n");
             }
         }
+        loggingService.logEvent("viewAppointment");
     }
 
     private int getNumberOfAppointments(MedicalClinic clinic) {
@@ -126,6 +143,7 @@ public class ClinicalManagement {
                 numberOfSurgeries++;
             }
         }
+        loggingService.logEvent("statsAppointments");
         System.out.println("In the database, there are:");
         System.out.println(numberOfConsultations + " consultations");
         System.out.println(numberOfSurgeries + " surgeries");
@@ -142,12 +160,14 @@ public class ClinicalManagement {
                 numberOfDoctors++;
             }
         }
+        loggingService.logEvent("statsStaff");
         System.out.println("In the database, there are:");
         System.out.println(numberOfAssistants + " assistants");
         System.out.println(numberOfDoctors + " doctors");
     }
 
     public void showOverview(MedicalClinic clinic){
+        loggingService.logEvent("showOverview");
         System.out.println("The database has the following records:");
         System.out.println("Medical staff: " + getNumberOfStaff(clinic));
         System.out.println("Patients: " + getNumberOfPatients(clinic));
@@ -159,6 +179,7 @@ public class ClinicalManagement {
             if (pat != null && pat.getFirstName() != null && pat.getLastName() != null)
                 if (pat.getFirstName().equals(firstName) && pat.getLastName().equals(lastName)) {
                     clinic.getPatients().remove(pat);
+                    loggingService.logEvent("removePatient");
                     break;
                 }
         }
@@ -169,6 +190,7 @@ public class ClinicalManagement {
             if (staff != null && staff.getFirstName() != null && staff.getLastName() != null)
                 if (staff.getFirstName().equals(firstName) && staff.getLastName().equals(lastName)){
                     clinic.getStaff().remove(staff);
+                    loggingService.logEvent("removeStaff");
                     break;
                 }
         }
@@ -180,6 +202,7 @@ public class ClinicalManagement {
             if (a != null && a.getDate() !=null && a.getDoc().getFirstName() != null && a.getDoc().getLastName() != null && a.getPat().getFirstName() != null && a.getPat().getLastName() != null)
                 if (a.getDate().equals(date) && a.getDoc().getFirstName().equals(docFirstName) && a.getDoc().getLastName().equals(docLastName) && a.getPat().getFirstName().equals(patFirstName) && a.getPat().getLastName().equals(patLastName)) {
                     clinic.getAppointments().remove(i);
+                    loggingService.logEvent("removeAppointment");
                     break;
                 }
             i++;
@@ -188,21 +211,36 @@ public class ClinicalManagement {
 
     public void updateAge (Person person, int age) {
         personService.updateAge(person, age);
+        if (person instanceof Patient){
+            loggingService.logEvent("updatePatient");
+        }
+        else{
+            loggingService.logEvent("updateStaff");
+        }
     }
 
     public void updatePhone (Person person, String phone) {
         personService.updatePhone(person, phone);
+        if (person instanceof Patient){
+            loggingService.logEvent("updatePatient");
+        }
+        else{
+            loggingService.logEvent("updateStaff");
+        }
     }
 
     public void updateSalary (MedicalStaff staff, float salary) {
         staffService.updateSalary(staff, salary);
+        loggingService.logEvent("updateStaff");
     }
 
     public void updateExperience (MedicalStaff staff, int experience) {
         staffService.updateExperience(staff, experience);
+        loggingService.logEvent("updateStaff");
     }
 
     public void updateDate(Appointment appointment, String date){
         appointmentService.updateDate(appointment, date);
+        loggingService.logEvent("updateAppointment");
     }
 }
