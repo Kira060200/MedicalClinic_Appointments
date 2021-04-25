@@ -54,7 +54,7 @@ Lista obiecte:
 10 PersonService
 11 StaffService
 12 AppointmentService
-
+13 LoggingService
  */
 
 
@@ -67,7 +67,8 @@ public class Application {
     public static void main(String[] args) {
         MedicalClinic clinic = new MedicalClinic();
         ClinicalManagement clinicalManagement = new ClinicalManagement();
-
+        RWPatientService rwPatientService = RWPatientService.getInstance();
+        rwPatientService.read(clinic, clinicalManagement);
         Scanner scanner = new Scanner(System.in);
         while(true) {
             System.out.println("Please type a command (overview / add / view / stats / remove / update / exit): ");
@@ -155,6 +156,7 @@ public class Application {
                     }
                     break;
                 case "exit" :
+                    rwPatientService.write(clinic.getPatients());
                     System.out.println("Bye bye!");
                     System.exit(0);
                     break;

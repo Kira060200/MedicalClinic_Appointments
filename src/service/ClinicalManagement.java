@@ -8,7 +8,7 @@ public class ClinicalManagement {
     private final PersonService personService = new PersonService();
     private final StaffService staffService = new StaffService();
     private final AppointmentService appointmentService = new AppointmentService();
-    private final LoggingService loggingService= new LoggingService();
+    private final LoggingService loggingService = new LoggingService();
 
     public void addStaff(MedicalClinic clinic, MedicalStaff staff) {
         clinic.getStaff().add(staff);
