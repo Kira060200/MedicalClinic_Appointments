@@ -69,6 +69,8 @@ public class Application {
         ClinicalManagement clinicalManagement = new ClinicalManagement();
         RWPatientService rwPatientService = RWPatientService.getInstance();
         rwPatientService.read(clinic, clinicalManagement);
+        RWAssistantService rwAssistantService = RWAssistantService.getInstance();
+        rwAssistantService.read(clinic, clinicalManagement);
         Scanner scanner = new Scanner(System.in);
         while(true) {
             System.out.println("Please type a command (overview / add / view / stats / remove / update / exit): ");
@@ -157,6 +159,7 @@ public class Application {
                     break;
                 case "exit" :
                     rwPatientService.write(clinic.getPatients());
+                    rwAssistantService.write(clinic.getStaff());
                     System.out.println("Bye bye!");
                     System.exit(0);
                     break;
