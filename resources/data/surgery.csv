@@ -1,0 +1,3 @@
+id,date,price,doctor,patient,type,assistant
+38,05-05-2021,7898.0,Mircea/Marin,Ana/Anabela,brain tumor extraction,Maria/Ioana
+80,08-07-2021,7563.0,Mircea/Marin,Mihai/Anacolut,DBS,Maria/Ioana
