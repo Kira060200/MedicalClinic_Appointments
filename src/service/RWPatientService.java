@@ -1,8 +1,12 @@
 package service;
 
+import config.DatabaseConnection;
 import model.*;
 import java.io.*;
 import java.nio.file.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -17,6 +21,40 @@ public class RWPatientService {
 
     public static RWPatientService getInstance() {
         return INSTANCE;
+    }
+
+    public long getNextId(){
+        String sql = "select COUNT(*) from patient";
+        try(PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                return result.getLong(1) + 1;
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
+    public void addPatient(Patient patient) {
+        String sql = "insert into patient values (null, ?, ?, ?, ?, ?, ?) ";
+        try (PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {//try with resources
+            statement.setString(1, patient.getFirstName());
+            statement.setString(2, patient.getLastName());
+            statement.setInt(3, patient.getAge());
+            statement.setString(4, patient.getSex());
+            statement.setString(5, patient.getPhoneNumber());
+            String disease = "";
+            for (String itm : patient.getDisease()){
+                disease += (itm + "/");
+            }
+            boolean res = disease.equals("/");
+            disease = disease.replaceFirst(".$","");
+            statement.setString(6, ((!res) ? disease : null));
+            statement.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void read(MedicalClinic clinic, ClinicalManagement clinicalManagement) {

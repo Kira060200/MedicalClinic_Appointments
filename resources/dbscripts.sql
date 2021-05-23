@@ -8,7 +8,7 @@ CREATE TABLE `patient` (
                                 `age` int(3) NOT NULL,
                                 `sex` varchar(100) NOT NULL,
                                 `phoneNumber` varchar(11) NOT NULL,
-                                `disease` varchar(100) NOT NULL,
+                                `disease` varchar(100),
                                 PRIMARY KEY (`id`));
 
 CREATE TABLE `doctor` (

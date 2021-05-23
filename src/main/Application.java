@@ -207,8 +207,11 @@ public class Application {
         System.out.println("Please specify if the patient has any know diseases: ");
         String diseaseDetails = scanner.nextLine();
         String[] disease = diseaseDetails.split("/");
-        Patient person = new Patient(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, disease);
+        RWPatientService rwPatientService = RWPatientService.getInstance();
+        long id = rwPatientService.getNextId();
+        Patient person = new Patient(id, firstName, lastName, age, sex, phoneNumber, disease);
         clinicalManagement.addPatient(clinic, person);
+        rwPatientService.addPatient(person);
     }
 
     private static void newStaff(Scanner scanner, String firstName, String lastName, int age, String sex, String phoneNumber, ClinicalManagement clinicalManagement, MedicalClinic clinic){
