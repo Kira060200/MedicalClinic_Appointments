@@ -40,6 +40,11 @@ Lista actiuni:
 15 update patient (age, phone)
 16 update staff (age, phone, salary, experience)
 17 update appointment (date)
+18 get patient (from db)
+19 get doctor (from db)
+20 get assistant (from db)
+21 get consultation (from db)
+22 get surgery (from db)
 
 Lista obiecte:
 1 MedicalClinic
@@ -79,7 +84,7 @@ public class Application {
         rwSurgeryService.read(clinic, clinicalManagement);
         Scanner scanner = new Scanner(System.in);
         while(true) {
-            System.out.println("Please type a command (overview / add / view / stats / remove / update / exit): ");
+            System.out.println("Please type a command (overview / add / get / view / stats / remove / update / exit): ");
             String line = scanner.nextLine();
             switch(line) {
                 case "overview" :
@@ -95,6 +100,45 @@ public class Application {
                         case "appointment":
                             newAppointment(scanner, clinicalManagement, clinic);
                             break;
+                        default: System.out.println("Invalid type");
+                    }
+                    break;
+                case "get":
+                    System.out.println("Please choose what would you like to get from db (patient / doctor / assistant / consultation / surgery): ");
+                    String getPick = scanner.nextLine();
+                    System.out.println("Please enter the id: ");
+                    long pickedId = Long.parseLong(scanner.nextLine());
+                    switch(getPick){
+                        case "patient":
+                            Optional<Patient> patient = rwPatientService.getPatientById(pickedId);
+                            if(patient.isPresent()) {
+                                System.out.println(patient.get());
+                            }
+                            break;
+                        /*case "doctor":
+                            Optional<Doctor> doctor = rwPatientService.getPatientById(pickedId);
+                            if(patient.isPresent()) {
+                                System.out.println(patient.get());
+                            }
+                            break;
+                        case "assistant":
+                            Optional<Patient> patient = rwPatientService.getPatientById(pickedId);
+                            if(patient.isPresent()) {
+                                System.out.println(patient.get());
+                            }
+                            break;
+                        case "consultation":
+                            Optional<Patient> patient = rwPatientService.getPatientById(pickedId);
+                            if(patient.isPresent()) {
+                                System.out.println(patient.get());
+                            }
+                            break;
+                        case "surgery":
+                            Optional<Patient> patient = rwPatientService.getPatientById(pickedId);
+                            if(patient.isPresent()) {
+                                System.out.println(patient.get());
+                            }
+                            break;*/
                         default: System.out.println("Invalid type");
                     }
                     break;
@@ -235,11 +279,9 @@ public class Application {
                         Assistant[] assistantArray = new Assistant[number];
                         int i = 0;
                         while(i < number){
-                            System.out.println("Please specify the assistant's first name: ");
-                            String asFirstName = scanner.nextLine();
-                            System.out.println("Please specify the assistant's last name: ");
-                            String asLastName = scanner.nextLine();
-                            Assistant as = clinicalManagement.searchAssistant(clinic, asFirstName, asLastName);
+                            System.out.println("Please specify the assistant's id: ");
+                            long asId = Long.parseLong(scanner.nextLine());
+                            Assistant as = clinicalManagement.searchAssistant(clinic, asId);
                             if(as == null){
                                 System.out.println("This assistant does not exist !");
                                 break;
@@ -286,21 +328,17 @@ public class Application {
         System.out.println("Please specify the price: ");
         float price = Float.valueOf(scanner.nextLine());
 
-        System.out.println("Please specify the doctor's first name: ");
-        String docFirstName = scanner.nextLine();
-        System.out.println("Please specify the doctor's last name: ");
-        String docLastName = scanner.nextLine();
-        Doctor doc = clinicalManagement.searchDoctor(clinic, docFirstName, docLastName);
+        System.out.println("Please specify the doctor's id: ");
+        long docId = Long.parseLong(scanner.nextLine());
+        Doctor doc = clinicalManagement.searchDoctor(clinic, docId);
         if(doc == null){
             System.out.println("This doctor does not exist !");
             return;
         }
 
-        System.out.println("Please specify the patient's first name: ");
-        String patFirstName = scanner.nextLine();
-        System.out.println("Please specify the patient's last name: ");
-        String patLastName = scanner.nextLine();
-        Patient pat = clinicalManagement.searchPatient(clinic, patFirstName, patLastName);
+        System.out.println("Please specify the patient's id: ");
+        long patId = Long.parseLong(scanner.nextLine());
+        Patient pat = clinicalManagement.searchPatient(clinic, patId);
         if(pat == null){
             System.out.println("This patient does not exist !");
             return;
@@ -342,11 +380,9 @@ public class Application {
             case "surgery":
                 System.out.println("Please specify the type of surgery: ");
                 String surgeryType = scanner.nextLine();
-                System.out.println("Please specify the assistant's first name: ");
-                String asFirstName = scanner.nextLine();
-                System.out.println("Please specify the assistant's last name: ");
-                String asLastName = scanner.nextLine();
-                Assistant as = clinicalManagement.searchAssistant(clinic, asFirstName, asLastName);
+                System.out.println("Please specify the assistant's id: ");
+                long asId = Long.parseLong(scanner.nextLine());
+                Assistant as = clinicalManagement.searchAssistant(clinic, asId);
                 if(as == null){
                     System.out.println("This assistant does not exist !");
                     break;
@@ -359,11 +395,10 @@ public class Application {
     }
 
     private static void updatePatient(Scanner scanner, ClinicalManagement clinicalManagement, MedicalClinic clinic){
-        System.out.println("Please specify the patient's first name: ");
-        String patFirstName = scanner.nextLine();
-        System.out.println("Please specify the patient's last name: ");
-        String patLastName = scanner.nextLine();
-        Patient pat = clinicalManagement.searchPatient(clinic, patFirstName, patLastName);
+        System.out.println("Please specify the patient's id: ");
+        int patientId = Integer.parseInt(scanner.nextLine());
+        RWPatientService rwPatientService = RWPatientService.getInstance();
+        Patient pat = clinicalManagement.searchPatient(clinic, patientId);
         if(pat == null){
             System.out.println("This patient does not exist !");
             return;
@@ -375,22 +410,34 @@ public class Application {
                 System.out.println("Please specify age: ");
                 int age = Integer.valueOf(scanner.nextLine());
                 clinicalManagement.updateAge(pat, age);
+                rwPatientService.updatePatientById(patientId, "age", String.valueOf(age));
                 break;
             case "phone":
                 System.out.println("Please specify the phone number: ");
                 String phone = scanner.nextLine();
                 clinicalManagement.updatePhone(pat, phone);
+                rwPatientService.updatePatientById(patientId, "phone", phone);
                 break;
             default:System.out.println("Invalid type");
         }
     }
 
     private static void updateStaff(Scanner scanner, ClinicalManagement clinicalManagement, MedicalClinic clinic){
-        System.out.println("Please specify staff member's first name: ");
-        String staffFirstName = scanner.nextLine();
-        System.out.println("Please specify staff member's last name: ");
-        String staffLastName = scanner.nextLine();
-        MedicalStaff staff = clinicalManagement.searchStaff(clinic, staffFirstName, staffLastName);
+        System.out.println("Please specify staff member's role: doctor / assistant");
+        String staffRole = scanner.nextLine();
+        System.out.println("Please specify staff member's id: ");
+        long id = Long.parseLong(scanner.nextLine());
+        MedicalStaff staff;
+        if (staffRole.equals("doctor")){
+            staff = clinicalManagement.searchDoctor(clinic, id);
+        }
+        else if (staffRole.equals("assistant")) {
+            staff = clinicalManagement.searchAssistant(clinic, id);
+        }
+        else{
+            System.out.println("Invalid type");
+            return;
+        }
         if(staff == null){
             System.out.println("This staff member does not exist !");
             return;
@@ -455,11 +502,11 @@ public class Application {
     }
 
     private static void removePatient(Scanner scanner, ClinicalManagement clinicalManagement, MedicalClinic clinic){
-        System.out.println("Please specify patient's first name: ");
-        String patFirstName = scanner.nextLine();
-        System.out.println("Please specify patient's last name: ");
-        String patLastName = scanner.nextLine();
-        clinicalManagement.removePatient(clinic, patFirstName, patLastName);
+        System.out.println("Please specify patient's id: ");
+        long patientId = Long.parseLong(scanner.nextLine());
+        RWPatientService rwPatientService = RWPatientService.getInstance();
+        rwPatientService.deletePatientById(patientId);
+        clinicalManagement.removePatient(clinic, patientId);
     }
 
     private static void removeAppointment(Scanner scanner, ClinicalManagement clinicalManagement, MedicalClinic clinic){

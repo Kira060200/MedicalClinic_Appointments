@@ -24,11 +24,12 @@ public class RWPatientService {
     }
 
     public long getNextId(){
-        String sql = "select COUNT(*) from patient";
+        String sql = "select AUTO_INCREMENT from information_schema.TABLES where TABLE_NAME = ?";
         try(PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setString(1, "patient");
             ResultSet result = statement.executeQuery();
             while(result.next()) {
-                return result.getLong(1) + 1;
+                return result.getLong(1);
             }
         } catch(SQLException e) {
             e.printStackTrace();
@@ -54,6 +55,66 @@ public class RWPatientService {
             statement.executeUpdate();
         } catch(SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public Optional<Patient> getPatientById(long id) {
+        String sql = "select * from patient va where va.id = ?";
+        try(PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setLong(1, id);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                long patientId = result.getLong(1);
+                String firstName = result.getString(2);
+                String lastName = result.getString(3);
+                int age = result.getInt(4);
+                String sex = result.getString(5);
+                String phoneNumber = result.getString(6);
+                String[] disease = new String[1];
+                disease[0]="";
+                try {
+                    disease = result.getString(7).split("/");
+                }catch (Exception ignored){
+                }
+
+                return Optional.of(new Patient(patientId, firstName, lastName, age, sex, phoneNumber, disease));
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    public void deletePatientById(long id){
+        String sql = "delete from patient where id = ?";
+        try(PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setLong(1, id);
+            statement.executeUpdate();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updatePatientById(long id, String field, String value){
+        if (field.equals("age")) {
+            String sql = "update patient set age = ? where id = ?";
+            try (PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+                statement.setLong(2, id);
+                statement.setInt(1, Integer.parseInt(value));
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            String sql = "update patient set phoneNumber = ? where id = ?";
+            try (PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+                statement.setLong(2, id);
+                statement.setString(1, value);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

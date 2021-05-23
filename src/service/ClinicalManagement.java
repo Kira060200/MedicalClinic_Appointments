@@ -92,6 +92,27 @@ public class ClinicalManagement {
         return numberOfAppointments;
     }
 
+    public Patient searchPatient(MedicalClinic clinic, long id) {
+        for (Patient pat : clinic.getPatients())
+            if (pat != null && pat.getId() == id)
+                    return pat;
+        return null;
+    }
+
+    public Doctor searchDoctor(MedicalClinic clinic, long id) {
+        for (MedicalStaff doc : clinic.getStaff())
+            if (doc instanceof Doctor && doc.getId() == id)
+                    return (Doctor) doc;
+        return null;
+    }
+
+    public Assistant searchAssistant(MedicalClinic clinic, long id) {
+        for (MedicalStaff as : clinic.getStaff())
+            if (as instanceof Assistant && as.getId() == id)
+                    return (Assistant) as;
+        return null;
+    }
+
     public Patient searchPatient(MedicalClinic clinic, String firstName, String lastName) {
         for (Patient pat : clinic.getPatients())
             if (pat != null && pat.getFirstName() != null && pat.getLastName() != null)
@@ -118,9 +139,9 @@ public class ClinicalManagement {
 
     public MedicalStaff searchStaff(MedicalClinic clinic, String firstName, String lastName) {
         for (MedicalStaff staff : clinic.getStaff())
-                if (staff != null && staff.getFirstName() != null && staff.getLastName() != null)
-                    if(staff.getFirstName().equals(firstName) && staff.getLastName().equals(lastName))
-                        return staff;
+            if (staff != null && staff.getFirstName() != null && staff.getLastName() != null)
+                if(staff.getFirstName().equals(firstName) && staff.getLastName().equals(lastName))
+                    return staff;
         return null;
     }
 
@@ -174,10 +195,9 @@ public class ClinicalManagement {
         System.out.println("Appointments: " + getNumberOfAppointments(clinic));
     }
 
-    public void removePatient(MedicalClinic clinic, String firstName, String lastName) {
+    public void removePatient(MedicalClinic clinic, long id) {
         for (Patient pat : clinic.getPatients()) {
-            if (pat != null && pat.getFirstName() != null && pat.getLastName() != null)
-                if (pat.getFirstName().equals(firstName) && pat.getLastName().equals(lastName)) {
+            if (pat != null && pat.getId() == id) {
                     clinic.getPatients().remove(pat);
                     loggingService.logEvent("removePatient");
                     break;
