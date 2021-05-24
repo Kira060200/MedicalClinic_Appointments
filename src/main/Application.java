@@ -127,13 +127,13 @@ public class Application {
                                 System.out.println(assistant.get());
                             }
                             break;
-                        /*case "consultation":
-                            Optional<Patient> patient = rwPatientService.getPatientById(pickedId);
-                            if(patient.isPresent()) {
-                                System.out.println(patient.get());
+                        case "consultation":
+                            Optional<MedicalConsultation> consultation = rwConsultationService.getConsultationById(pickedId, clinic, clinicalManagement);
+                            if(consultation.isPresent()) {
+                                System.out.println(consultation.get());
                             }
                             break;
-                        case "surgery":
+                        /*case "surgery":
                             Optional<Patient> patient = rwPatientService.getPatientById(pickedId);
                             if(patient.isPresent()) {
                                 System.out.println(patient.get());
@@ -366,6 +366,8 @@ public class Application {
                 String diseaseType = scanner.nextLine();
                 System.out.println("Does this consultation have an prescription? [yes/no]");
                 String checkPrescription = scanner.nextLine();
+                RWConsultationService rwConsultationService = RWConsultationService.getInstance();
+                long consultationId = rwConsultationService.getNextId();
                 switch(checkPrescription){
                     case "yes":
                         int number = 0;
@@ -381,12 +383,14 @@ public class Application {
                             drugArray[i] = new Drug(new Random().nextInt(100), drugName, drugPrice);
                             i++;
                         }
-                        MedicalConsultation consultation = new MedicalConsultation(new Random().nextInt(100), date, price, doc, pat, diseaseType, new Prescription(new Random().nextInt(100), drugArray.clone()));
+                        MedicalConsultation consultation = new MedicalConsultation(consultationId, date, price, doc, pat, diseaseType, new Prescription(new Random().nextInt(100), drugArray.clone()));
                         clinicalManagement.addAppointment(clinic, consultation);
+                        rwConsultationService.addConsultation(consultation);
                         break;
                     case "no":
-                        MedicalConsultation cons = new MedicalConsultation(new Random().nextInt(100), date, price, doc, pat, diseaseType);
+                        MedicalConsultation cons = new MedicalConsultation(consultationId, date, price, doc, pat, diseaseType);
                         clinicalManagement.addAppointment(clinic, cons);
+                        rwConsultationService.addConsultation(cons);
                         break;
                     default: System.out.println("Invalid answer.");
                 }
@@ -510,27 +514,37 @@ public class Application {
     }
 
     private static void updateAppointment(Scanner scanner, ClinicalManagement clinicalManagement, MedicalClinic clinic){
-        System.out.println("Please specify the old date for the appointment: ");
-        String oldDate = scanner.nextLine();
+        System.out.println("Please specify appointment's type: consultation / surgery");
+        String appType = scanner.nextLine();
+        System.out.println("Please specify appointment's id: ");
+        long id = Long.parseLong(scanner.nextLine());
+        Appointment appointment;
+        RWConsultationService rwConsultationService = RWConsultationService.getInstance();
+        RWSurgeryService rwSurgeryService = RWSurgeryService.getInstance();
+        if (appType.equals("consultation")){
+            appointment = clinicalManagement.searchConsultation(clinic, id);
+        }
+        else if (appType.equals("surgery")) {
+            appointment = clinicalManagement.searchSurgery(clinic, id);
+        }
+        else{
+            System.out.println("Invalid type");
+            return;
+        }
 
-        System.out.println("Please specify the doctor's first name: ");
-        String docFirstName = scanner.nextLine();
-        System.out.println("Please specify the doctor's last name: ");
-        String docLastName = scanner.nextLine();
-
-        System.out.println("Please specify the patient's first name: ");
-        String patientFirstName = scanner.nextLine();
-        System.out.println("Please specify the patient's last name: ");
-        String patientLastName = scanner.nextLine();
-
-        Appointment app = clinicalManagement.searchAppointment(clinic, oldDate, docFirstName, docLastName, patientFirstName, patientLastName);
-        if(app == null){
+        if(appointment == null){
             System.out.println("This appointment does not exist !");
             return;
         }
         System.out.println("Please specify the new date for the appointment: ");
         String newDate = scanner.nextLine();
-        clinicalManagement.updateDate(app, newDate);
+        clinicalManagement.updateDate(appointment, newDate);
+        if (appType.equals("consultation")){
+            rwConsultationService.updateConsultationById(id, newDate);
+        }
+        else if (appType.equals("surgery")) {
+            //rwConsultationService.updateConsultationById(id, newDate);
+        }
     }
 
     private static void removeStaff(Scanner scanner, ClinicalManagement clinicalManagement, MedicalClinic clinic){
@@ -561,17 +575,19 @@ public class Application {
     }
 
     private static void removeAppointment(Scanner scanner, ClinicalManagement clinicalManagement, MedicalClinic clinic){
-        System.out.println("Please specify appointment's date: ");
-        String aDate = scanner.nextLine();
-        System.out.println("Please specify staff's first name: ");
-        String docFirstName = scanner.nextLine();
-        System.out.println("Please specify staff's last name: ");
-        String docLastName = scanner.nextLine();
-        System.out.println("Please specify patient's first name: ");
-        String pFirstName = scanner.nextLine();
-        System.out.println("Please specify patient's last name: ");
-        String pLastName = scanner.nextLine();
-        clinicalManagement.removeAppointment(clinic, aDate, docFirstName, docLastName, pFirstName, pLastName);
+        System.out.println("Please specify appointment's type: consultation / surgery");
+        String appType = scanner.nextLine();
+        System.out.println("Please specify appointment's id: ");
+        long id = Long.parseLong(scanner.nextLine());
+        if (appType.equals("consultation")){
+            RWConsultationService rwConsultationService = RWConsultationService.getInstance();
+            clinicalManagement.removeConsultation(clinic, id);
+            rwConsultationService.deleteConsultationById(id);
+        }
+        else if (appType.equals("surgery")) {
+            RWSurgeryService rwSurgeryService = RWSurgeryService.getInstance();
+            //rwConsultationService.updateConsultationById(id, newDate);
+        }
     }
 }
 

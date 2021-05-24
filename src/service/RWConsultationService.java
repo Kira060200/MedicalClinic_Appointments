@@ -1,9 +1,13 @@
 package service;
 
+import config.DatabaseConnection;
 import model.*;
 
 import java.io.*;
 import java.nio.file.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public class RWConsultationService {
@@ -17,6 +21,86 @@ public class RWConsultationService {
 
     public static RWConsultationService getInstance() {
         return INSTANCE;
+    }
+
+    public long getNextId(){
+        String sql = "select AUTO_INCREMENT from information_schema.TABLES where TABLE_NAME = ?";
+        try(PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setString(1, "consultation");
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                return result.getLong(1);
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
+    public void addConsultation(MedicalConsultation consultation) {
+        String sql = "insert into consultation values (null, ?, ?, ?, ?, ?) ";
+        try (PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setString(1, consultation.getDate());
+            statement.setFloat(2, consultation.getPrice());
+            statement.setLong(3, consultation.getDoc().getId());
+            statement.setLong(4, consultation.getPat().getId());
+            statement.setString(5, consultation.getDisease());
+            statement.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Optional<MedicalConsultation> getConsultationById(long id, MedicalClinic clinic, ClinicalManagement clinicalManagement) {
+        String sql = "select * from consultation va where va.id = ?";
+        try(PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setLong(1, id);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                String date = result.getString(2);
+                float price = result.getFloat(3);
+                long docId = result.getLong(4);
+                Doctor doctor = clinicalManagement.searchDoctor(clinic, docId);
+                if(doctor == null){
+                    System.out.println("This doctor does not exist !");
+                    return Optional.empty();
+                }
+                long patId = result.getLong(5);
+                Patient patient = clinicalManagement.searchPatient(clinic, patId);
+                if(patient == null){
+                    System.out.println("This patient does not exist !");
+                    return Optional.empty();
+                }
+                String disease = result.getString(6);
+
+                return Optional.of(new MedicalConsultation(id, date, price, doctor, patient, disease));
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    public void deleteConsultationById(long id){
+        String sql = "delete from consultation where id = ?";
+        try(PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setLong(1, id);
+            statement.executeUpdate();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateConsultationById(long id, String value){
+            String sql = "update consultation set date = ? where id = ?";
+            try (PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+                statement.setLong(2, id);
+                statement.setString(1, value);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
     }
 
     public void read(MedicalClinic clinic, ClinicalManagement clinicalManagement) {

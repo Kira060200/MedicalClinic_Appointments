@@ -145,11 +145,17 @@ public class ClinicalManagement {
         return null;
     }
 
-    public Appointment searchAppointment(MedicalClinic clinic, String date, String docFirstName, String docLastName, String patFirstName, String patLastName) {
+    public Appointment searchConsultation(MedicalClinic clinic, long id) {
         for (Appointment a : clinic.getAppointments())
-            if (a != null && a.getDate() !=null && a.getDoc().getFirstName() != null && a.getDoc().getLastName() != null && a.getPat().getFirstName() != null && a.getPat().getLastName() != null)
-                if (a.getDate().equals(date) && a.getDoc().getFirstName().equals(docFirstName) && a.getDoc().getLastName().equals(docLastName) && a.getPat().getFirstName().equals(patFirstName) && a.getPat().getLastName().equals(patLastName))
+            if (a instanceof MedicalConsultation && a.getId() == id)
                     return a;
+        return null;
+    }
+
+    public Appointment searchSurgery(MedicalClinic clinic, long id) {
+        for (Appointment a : clinic.getAppointments())
+            if (a instanceof MedicalSurgery && a.getId() == id)
+                return a;
         return null;
     }
 
@@ -225,15 +231,26 @@ public class ClinicalManagement {
         }
     }
 
-    public void removeAppointment(MedicalClinic clinic, String date, String docFirstName, String docLastName, String patFirstName, String patLastName) {
+    public void removeConsultation(MedicalClinic clinic, long id) {
         int i = 0;
         for (Appointment a : clinic.getAppointments()) {
-            if (a != null && a.getDate() !=null && a.getDoc().getFirstName() != null && a.getDoc().getLastName() != null && a.getPat().getFirstName() != null && a.getPat().getLastName() != null)
-                if (a.getDate().equals(date) && a.getDoc().getFirstName().equals(docFirstName) && a.getDoc().getLastName().equals(docLastName) && a.getPat().getFirstName().equals(patFirstName) && a.getPat().getLastName().equals(patLastName)) {
+            if (a instanceof MedicalConsultation && a.getId() == id){
                     clinic.getAppointments().remove(i);
                     loggingService.logEvent("removeAppointment");
                     break;
                 }
+            i++;
+        }
+    }
+
+    public void removeSurgery(MedicalClinic clinic, long id) {
+        int i = 0;
+        for (Appointment a : clinic.getAppointments()) {
+            if (a instanceof MedicalSurgery && a.getId() == id){
+                clinic.getAppointments().remove(i);
+                loggingService.logEvent("removeAppointment");
+                break;
+            }
             i++;
         }
     }
