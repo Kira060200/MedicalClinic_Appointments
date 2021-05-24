@@ -1,10 +1,14 @@
 package service;
 
+import config.DatabaseConnection;
 import model.*;
 
 import javax.print.Doc;
 import java.io.*;
 import java.nio.file.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public class RWDoctorService {
@@ -18,6 +22,111 @@ public class RWDoctorService {
 
     public static RWDoctorService getInstance() {
         return INSTANCE;
+    }
+
+    public long getNextId(){
+        String sql = "select AUTO_INCREMENT from information_schema.TABLES where TABLE_NAME = ?";
+        try(PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setString(1, "doctor");
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                return result.getLong(1);
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
+    public void addDoctor(Doctor doctor) {
+        String sql = "insert into doctor values (null, ?, ?, ?, ?, ?, ?, ?, ?) ";
+        try (PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {//try with resources
+            statement.setString(1, doctor.getFirstName());
+            statement.setString(2, doctor.getLastName());
+            statement.setInt(3, doctor.getAge());
+            statement.setString(4, doctor.getSex());
+            statement.setString(5, doctor.getPhoneNumber());
+            statement.setFloat(6, doctor.getSalary());
+            statement.setInt(7, doctor.getExperience());
+            statement.setString(8, doctor.getBranch());
+            statement.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Optional<Doctor> getDoctorById(long id) {
+        String sql = "select * from doctor va where va.id = ?";
+        try(PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setLong(1, id);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                long doctorId = result.getLong(1);
+                String firstName = result.getString(2);
+                String lastName = result.getString(3);
+                int age = result.getInt(4);
+                String sex = result.getString(5);
+                String phoneNumber = result.getString(6);
+                Float salary = result.getFloat(7);
+                int experience = result.getInt(8);
+                String branch = result.getString(9);
+
+                return Optional.of(new Doctor(doctorId, firstName, lastName, age, sex, phoneNumber, salary, experience, branch));
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    public void deleteDoctorById(long id){
+        String sql = "delete from doctor where id = ?";
+        try(PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setLong(1, id);
+            statement.executeUpdate();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateDoctorById(long id, String field, String value){
+        if (field.equals("age")) {
+            String sql = "update doctor set age = ? where id = ?";
+            try (PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+                statement.setLong(2, id);
+                statement.setInt(1, Integer.parseInt(value));
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if (field.equals("phone")) {
+            String sql = "update doctor set phoneNumber = ? where id = ?";
+            try (PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+                statement.setLong(2, id);
+                statement.setString(1, value);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if (field.equals("salary")){
+            String sql = "update doctor set salary = ? where id = ?";
+            try (PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+                statement.setLong(2, id);
+                statement.setFloat(1, Float.parseFloat(value));
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }else if (field.equals("experience")){
+            String sql = "update doctor set experience = ? where id = ?";
+            try (PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+                statement.setLong(2, id);
+                statement.setInt(1, Integer.parseInt(value));
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void read(MedicalClinic clinic, ClinicalManagement clinicalManagement) {

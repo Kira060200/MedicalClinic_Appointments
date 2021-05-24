@@ -1,3 +1,5 @@
 id,firstName,lastName,age,sex,phoneNumber,salary,experience,branch
+1,Marcel,Marcelino,45,M,0770808987,4000.0,10,ORL
 14,Mircea,Marin,48,M,98456745,6578.0,7,neurochirurgy
 82,Adrian,Nicolae,67,M,4598767,8767.0,36,pediatrician
+5,Cristina,Tudor,36,F,0880909234,5500.0,9,neuro

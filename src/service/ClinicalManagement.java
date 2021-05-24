@@ -205,11 +205,20 @@ public class ClinicalManagement {
         }
     }
 
-    public void removeStaff(MedicalClinic clinic, String firstName, String lastName) {
-        for (MedicalStaff staff : clinic.getStaff()) {
-            if (staff != null && staff.getFirstName() != null && staff.getLastName() != null)
-                if (staff.getFirstName().equals(firstName) && staff.getLastName().equals(lastName)){
-                    clinic.getStaff().remove(staff);
+    public void removeDoctor(MedicalClinic clinic, long id) {
+        for (MedicalStaff doc : clinic.getStaff()) {
+            if (doc instanceof Doctor && doc.getId() == id){
+                    clinic.getStaff().remove(doc);
+                    loggingService.logEvent("removeStaff");
+                    break;
+                }
+        }
+    }
+
+    public void removeAssistant(MedicalClinic clinic, long id) {
+        for (MedicalStaff as : clinic.getStaff()) {
+            if (as instanceof Assistant && as.getId() == id){
+                    clinic.getStaff().remove(as);
                     loggingService.logEvent("removeStaff");
                     break;
                 }

@@ -115,19 +115,19 @@ public class Application {
                                 System.out.println(patient.get());
                             }
                             break;
-                        /*case "doctor":
-                            Optional<Doctor> doctor = rwPatientService.getPatientById(pickedId);
-                            if(patient.isPresent()) {
-                                System.out.println(patient.get());
+                        case "doctor":
+                            Optional<Doctor> doctor = rwDoctorService.getDoctorById(pickedId);
+                            if(doctor.isPresent()) {
+                                System.out.println(doctor.get());
                             }
                             break;
                         case "assistant":
-                            Optional<Patient> patient = rwPatientService.getPatientById(pickedId);
-                            if(patient.isPresent()) {
-                                System.out.println(patient.get());
+                            Optional<Assistant> assistant = rwAssistantService.getAssistantById(pickedId);
+                            if(assistant.isPresent()) {
+                                System.out.println(assistant.get());
                             }
                             break;
-                        case "consultation":
+                        /*case "consultation":
                             Optional<Patient> patient = rwPatientService.getPatientById(pickedId);
                             if(patient.isPresent()) {
                                 System.out.println(patient.get());
@@ -271,6 +271,8 @@ public class Application {
                 String branch = scanner.nextLine();
                 System.out.println("Does this doctor have an assistant? [yes/no] (yes = it has to be already added in the clinic database)");
                 String checkAssistant = scanner.nextLine();
+                RWDoctorService rwDoctorService = RWDoctorService.getInstance();
+                long id = rwDoctorService.getNextId();
                 switch(checkAssistant){
                     case "yes":
                         int number = 0;
@@ -278,6 +280,7 @@ public class Application {
                         number = Integer.valueOf(scanner.nextLine());
                         Assistant[] assistantArray = new Assistant[number];
                         int i = 0;
+                        Long[] asIdArr = new Long[number];
                         while(i < number){
                             System.out.println("Please specify the assistant's id: ");
                             long asId = Long.parseLong(scanner.nextLine());
@@ -288,15 +291,22 @@ public class Application {
                             }
                             else{
                                 assistantArray[i] = as;
+                                asIdArr[i] = asId;
                                 i++;
+
                             }
                         }
-                        MedicalStaff doctor = new Doctor(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, salary, experience, branch, assistantArray.clone());
+                        MedicalStaff doctor = new Doctor(id, firstName, lastName, age, sex, phoneNumber, salary, experience, branch, assistantArray.clone());
                         clinicalManagement.addStaff(clinic, doctor);
+                        rwDoctorService.addDoctor((Doctor) doctor);
+                        RWAssistantService rwAssistantService = RWAssistantService.getInstance();
+                        for(int j=0; j < asIdArr.length;j++)
+                            rwAssistantService.updateAssistantById(asIdArr[j], "doctor", String.valueOf(id));
                         break;
                     case "no":
-                        MedicalStaff doc = new Doctor(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, salary, experience, branch);
+                        MedicalStaff doc = new Doctor(id, firstName, lastName, age, sex, phoneNumber, salary, experience, branch);
                         clinicalManagement.addStaff(clinic, doc);
+                        rwDoctorService.addDoctor((Doctor) doc);
                         break;
                     default: System.out.println("Invalid answer.");
                 }
@@ -306,14 +316,18 @@ public class Application {
                 System.out.println("Is the assistant a resident? [yes/no]");
                 String resident = scanner.nextLine();
                 MedicalStaff assistant;
+                RWAssistantService rwAssistantService = RWAssistantService.getInstance();
+                long asId = rwAssistantService.getNextId();
                 switch(resident){
                     case "yes":
-                        assistant = new Assistant(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, salary, experience, true);
+                        assistant = new Assistant(asId, firstName, lastName, age, sex, phoneNumber, salary, experience, true);
                         clinicalManagement.addStaff(clinic, assistant);
+                        rwAssistantService.addAssistant((Assistant) assistant);
                         break;
                     case "no":
-                        assistant = new Assistant(new Random().nextInt(100), firstName, lastName, age, sex, phoneNumber, salary, experience, false);
+                        assistant = new Assistant(asId, firstName, lastName, age, sex, phoneNumber, salary, experience, false);
                         clinicalManagement.addStaff(clinic, assistant);
+                        rwAssistantService.addAssistant((Assistant) assistant);
                         break;
                     default: System.out.println("Invalid answer.");
                 }
@@ -428,6 +442,8 @@ public class Application {
         System.out.println("Please specify staff member's id: ");
         long id = Long.parseLong(scanner.nextLine());
         MedicalStaff staff;
+        RWDoctorService rwDoctorService = RWDoctorService.getInstance();
+        RWAssistantService rwAssistantService = RWAssistantService.getInstance();
         if (staffRole.equals("doctor")){
             staff = clinicalManagement.searchDoctor(clinic, id);
         }
@@ -449,21 +465,45 @@ public class Application {
                 System.out.println("Please specify age: ");
                 int age = Integer.valueOf(scanner.nextLine());
                 clinicalManagement.updateAge(staff, age);
+                if (staffRole.equals("doctor")){
+                    rwDoctorService.updateDoctorById(id, "age", String.valueOf(age));
+                }
+                else if (staffRole.equals("assistant")) {
+                    rwAssistantService.updateAssistantById(id, "age", String.valueOf(age));
+                }
                 break;
             case "phone":
                 System.out.println("Please specify the phone number: ");
                 String phone = scanner.nextLine();
                 clinicalManagement.updatePhone(staff, phone);
+                if (staffRole.equals("doctor")){
+                    rwDoctorService.updateDoctorById(id, "phone", phone);
+                }
+                else if (staffRole.equals("assistant")) {
+                    rwAssistantService.updateAssistantById(id, "phone", phone);
+                }
                 break;
             case "salary":
                 System.out.println("Please specify salary: ");
                 float salary = Float.valueOf(scanner.nextLine());
                 clinicalManagement.updateSalary(staff, salary);
+                if (staffRole.equals("doctor")){
+                    rwDoctorService.updateDoctorById(id, "salary", String.valueOf(salary));
+                }
+                else if (staffRole.equals("assistant")) {
+                    rwAssistantService.updateAssistantById(id, "salary", String.valueOf(salary));
+                }
                 break;
             case "experience":
                 System.out.println("Please specify experience: ");
                 int experience = Integer.valueOf(scanner.nextLine());
                 clinicalManagement.updateExperience(staff, experience);
+                if (staffRole.equals("doctor")){
+                    rwDoctorService.updateDoctorById(id, "experience", String.valueOf(experience));
+                }
+                else if (staffRole.equals("assistant")) {
+                    rwAssistantService.updateAssistantById(id, "experience", String.valueOf(experience));
+                }
                 break;
             default:System.out.println("Invalid type");
         }
@@ -494,11 +534,22 @@ public class Application {
     }
 
     private static void removeStaff(Scanner scanner, ClinicalManagement clinicalManagement, MedicalClinic clinic){
-        System.out.println("Please specify staff's first name: ");
-        String staffFirstName = scanner.nextLine();
-        System.out.println("Please specify staff's last name: ");
-        String staffLastName = scanner.nextLine();
-        clinicalManagement.removeStaff(clinic, staffFirstName, staffLastName);
+        System.out.println("Please specify staff member's role: doctor / assistant");
+        String staffRole = scanner.nextLine();
+        System.out.println("Please specify staff member's id: ");
+        long id = Long.parseLong(scanner.nextLine());
+        if (staffRole.equals("doctor")){
+            RWDoctorService rwDoctorService = RWDoctorService.getInstance();
+            clinicalManagement.removeDoctor(clinic, id);
+            rwDoctorService.deleteDoctorById(id);
+        }
+        else if (staffRole.equals("assistant")) {
+            RWAssistantService rwAssistantService = RWAssistantService.getInstance();
+            clinicalManagement.removeAssistant(clinic, id);
+            rwAssistantService.deleteAssistantById(id);
+        }
+
+
     }
 
     private static void removePatient(Scanner scanner, ClinicalManagement clinicalManagement, MedicalClinic clinic){
