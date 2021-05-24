@@ -133,12 +133,12 @@ public class Application {
                                 System.out.println(consultation.get());
                             }
                             break;
-                        /*case "surgery":
-                            Optional<Patient> patient = rwPatientService.getPatientById(pickedId);
-                            if(patient.isPresent()) {
-                                System.out.println(patient.get());
+                        case "surgery":
+                            Optional<MedicalSurgery> surgery = rwSurgeryService.getSurgeryById(pickedId, clinic, clinicalManagement);
+                            if(surgery.isPresent()) {
+                                System.out.println(surgery.get());
                             }
-                            break;*/
+                            break;
                         default: System.out.println("Invalid type");
                     }
                     break;
@@ -396,6 +396,8 @@ public class Application {
                 }
                 break;
             case "surgery":
+                RWSurgeryService rwSurgeryService = RWSurgeryService.getInstance();
+                long surgeryId = rwSurgeryService.getNextId();
                 System.out.println("Please specify the type of surgery: ");
                 String surgeryType = scanner.nextLine();
                 System.out.println("Please specify the assistant's id: ");
@@ -405,8 +407,9 @@ public class Application {
                     System.out.println("This assistant does not exist !");
                     break;
                 }
-                MedicalSurgery surgery = new MedicalSurgery(new Random().nextInt(100), date, price, doc, pat, surgeryType, as);
+                MedicalSurgery surgery = new MedicalSurgery(surgeryId, date, price, doc, pat, surgeryType, as);
                 clinicalManagement.addAppointment(clinic, surgery);
+                rwSurgeryService.addSurgery(surgery);
                 break;
             default: System.out.println("This appointment type doesn't exist");
         }
@@ -543,7 +546,7 @@ public class Application {
             rwConsultationService.updateConsultationById(id, newDate);
         }
         else if (appType.equals("surgery")) {
-            //rwConsultationService.updateConsultationById(id, newDate);
+            rwSurgeryService.updateSurgeryById(id, newDate);
         }
     }
 
@@ -586,7 +589,8 @@ public class Application {
         }
         else if (appType.equals("surgery")) {
             RWSurgeryService rwSurgeryService = RWSurgeryService.getInstance();
-            //rwConsultationService.updateConsultationById(id, newDate);
+            clinicalManagement.removeSurgery(clinic, id);
+            rwSurgeryService.deleteSurgeryById(id);
         }
     }
 }

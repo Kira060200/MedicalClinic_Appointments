@@ -1,9 +1,13 @@
 package service;
 
+import config.DatabaseConnection;
 import model.*;
 
 import java.io.*;
 import java.nio.file.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public class RWSurgeryService {
@@ -17,6 +21,92 @@ public class RWSurgeryService {
 
     public static RWSurgeryService getInstance() {
         return INSTANCE;
+    }
+
+    public long getNextId(){
+        String sql = "select AUTO_INCREMENT from information_schema.TABLES where TABLE_NAME = ?";
+        try(PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setString(1, "surgery");
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                return result.getLong(1);
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
+    public void addSurgery(MedicalSurgery surgery) {
+        String sql = "insert into surgery values (null, ?, ?, ?, ?, ?, ?) ";
+        try (PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setString(1, surgery.getDate());
+            statement.setFloat(2, surgery.getPrice());
+            statement.setLong(3, surgery.getDoc().getId());
+            statement.setLong(4, surgery.getPat().getId());
+            statement.setString(5, surgery.getType());
+            statement.setLong(6, surgery.getAs().getId());
+            statement.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Optional<MedicalSurgery> getSurgeryById(long id, MedicalClinic clinic, ClinicalManagement clinicalManagement) {
+        String sql = "select * from surgery va where va.id = ?";
+        try(PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setLong(1, id);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                String date = result.getString(2);
+                float price = result.getFloat(3);
+                long docId = result.getLong(4);
+                Doctor doctor = clinicalManagement.searchDoctor(clinic, docId);
+                if(doctor == null){
+                    System.out.println("This doctor does not exist !");
+                    return Optional.empty();
+                }
+                long patId = result.getLong(5);
+                Patient patient = clinicalManagement.searchPatient(clinic, patId);
+                if(patient == null){
+                    System.out.println("This patient does not exist !");
+                    return Optional.empty();
+                }
+                String type = result.getString(6);
+                long asId = result.getLong(7);
+                Assistant assistant = clinicalManagement.searchAssistant(clinic, asId);
+                if(assistant == null){
+                    System.out.println("This assistant does not exist !");
+                    return Optional.empty();
+                }
+                return Optional.of(new MedicalSurgery(id, date, price, doctor, patient, type, assistant));
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    public void deleteSurgeryById(long id){
+        String sql = "delete from surgery where id = ?";
+        try(PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setLong(1, id);
+            statement.executeUpdate();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateSurgeryById(long id, String value){
+        String sql = "update surgery set date = ? where id = ?";
+        try (PreparedStatement statement = DatabaseConnection.getInstance().prepareStatement(sql)) {
+            statement.setLong(2, id);
+            statement.setString(1, value);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void read(MedicalClinic clinic, ClinicalManagement clinicalManagement) {
